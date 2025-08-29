@@ -243,7 +243,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error creating game:', err);
       setError(err.message);
-      toast.error('Error creating game on Core Blockchain');
+      toast.error('Error creating game on BSC');
     } finally {
       setLoading(false);
     }
