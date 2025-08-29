@@ -44,7 +44,7 @@ interface ApiResponse<T> {
 const CONFIG = {
   PORT: process.env.API_PORT || 3001,
   BSC_RPC: 'https://bsc-dataseed1.binance.org',
-  CONTRACT_ADDRESS: '0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697',
+  CONTRACT_ADDRESS: '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe',
   API_VERSION: '1.0.0',
   CACHE_TTL: 30000, // 30 seconds
   MAX_REQUESTS_PER_MINUTE: 100,
