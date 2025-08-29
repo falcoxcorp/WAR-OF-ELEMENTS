@@ -123,7 +123,7 @@ const Audit = () => {
               </code>
             </div>
             <span className="hidden sm:inline">•</span>
-            <span>Core Blockchain Mainnet (Chain ID: 1116)</span>
+            <span>Binance Smart Chain Mainnet (Chain ID: 56)</span>
           </div>
         </div>
       </div>
@@ -404,12 +404,12 @@ const Audit = () => {
               <div className="p-6 bg-slate-800/50 rounded-xl">
                 <Shield className="w-8 h-8 text-blue-400 mx-auto mb-3" />
                 <h3 className="text-lg font-bold text-white mb-2">Security Analysis</h3>
-                <p className="text-gray-300 text-sm">Comprehensive vulnerability assessment and penetration testing</p>
+                <p className="text-gray-300 text-sm">BSC-optimized security assessment and testing</p>
               </div>
               <div className="p-6 bg-slate-800/50 rounded-xl">
                 <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-3" />
                 <h3 className="text-lg font-bold text-white mb-2">Gas Optimization</h3>
-                <p className="text-gray-300 text-sm">Code efficiency review and gas cost optimization analysis</p>
+                <p className="text-gray-300 text-sm">BSC gas optimization and efficiency analysis</p>
               </div>
               <div className="p-6 bg-slate-800/50 rounded-xl">
                 <FileCheck className="w-8 h-8 text-green-400 mx-auto mb-3" />

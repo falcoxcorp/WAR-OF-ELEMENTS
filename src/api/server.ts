@@ -43,7 +43,7 @@ interface ApiResponse<T> {
 // Configuration
 const CONFIG = {
   PORT: process.env.API_PORT || 3001,
-  CORE_RPC: 'https://rpc-core.icecreamswap.com',
+  BSC_RPC: 'https://bsc-dataseed1.binance.org',
   CONTRACT_ADDRESS: '0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697',
   API_VERSION: '1.0.0',
   CACHE_TTL: 30000, // 30 seconds
@@ -130,8 +130,8 @@ const CONTRACT_ABI = [
   }
 ];
 
-// Initialize Web3 and Contract
-const web3 = new Web3(CONFIG.CORE_RPC);
+// Initialize Web3 and Contract for BSC
+const web3 = new Web3(CONFIG.BSC_RPC);
 const contract = new web3.eth.Contract(CONTRACT_ABI, CONFIG.CONTRACT_ADDRESS);
 
 // Cache system
@@ -238,8 +238,8 @@ app.get('/api/health', (req, res) => {
     uptime: process.uptime(),
     timestamp: Date.now(),
     version: CONFIG.API_VERSION,
-    network: 'Core Blockchain',
-    chainId: 1116,
+    network: 'Binance Smart Chain',
+    chainId: 56,
     baseUrl: `${req.protocol}://${req.get('host')}/api`
   }));
 });
@@ -252,7 +252,7 @@ app.get('/api/docs', (req, res) => {
     title: 'Guerra de Elementos Arena API Documentation',
     version: CONFIG.API_VERSION,
     baseUrl,
-    description: 'API REST robusta para interactuar con Guerra de Elementos Arena en Core Blockchain',
+    description: 'API REST robusta para interactuar con Guerra de Elementos Arena en Binance Smart Chain',
     endpoints: {
       'GET /health': 'Estado de la API y métricas',
       'GET /games': 'Obtener todos los juegos con filtros opcionales',
@@ -599,8 +599,8 @@ app.get('/api/contract/stats', async (req, res) => {
       totalPlayers: Number(totalPlayers),
       rewardPool: web3.utils.fromWei(rewardPool, 'ether'),
       contractBalance: web3.utils.fromWei(contractBalance, 'ether'),
-      network: 'Core Blockchain',
-      chainId: 1116,
+      network: 'Binance Smart Chain',
+      chainId: 56,
       contractAddress: CONFIG.CONTRACT_ADDRESS
     };
 
@@ -616,9 +616,9 @@ app.get('/api/contract/info', async (req, res) => {
   try {
     const info = {
       address: CONFIG.CONTRACT_ADDRESS,
-      network: 'Core Blockchain',
-      chainId: 1116,
-      explorer: `https://scan.coredao.org/address/${CONFIG.CONTRACT_ADDRESS}`,
+      network: 'Binance Smart Chain',
+      chainId: 56,
+      explorer: `https://bscscan.com/address/${CONFIG.CONTRACT_ADDRESS}`,
       version: '1.0.0',
       website: 'http://ppt.falcox.net',
       features: [
@@ -682,7 +682,7 @@ const startServer = () => {
     console.log(`🚀 OMDB Arena API Server running on port ${CONFIG.PORT}`);
     console.log(`📊 API Documentation: http://localhost:${CONFIG.PORT}/api/docs`);
     console.log(`🔗 Health Check: http://localhost:${CONFIG.PORT}/api/health`);
-    console.log(`⛓️  Connected to Core Blockchain: ${CONFIG.CORE_RPC}`);
+    console.log(`⛓️  Connected to Binance Smart Chain: ${CONFIG.BSC_RPC}`);
     console.log(`📝 Contract Address: ${CONFIG.CONTRACT_ADDRESS}`);
   });
 };

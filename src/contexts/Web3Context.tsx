@@ -11,7 +11,7 @@ interface Web3ContextType {
   networkId: number | null;
   balance: string;
   isCorrectNetwork: boolean;
-  switchToCore: () => Promise<void>;
+  switchToBSC: () => Promise<void>;
   reconnectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   connectionState: 'idle' | 'connecting' | 'connected' | 'error';
@@ -25,18 +25,31 @@ interface Web3ContextType {
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
-const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe';
-const CORE_CHAIN_ID = 1116;
-const CORE_NETWORK_CONFIG = {
-  chainId: '0x45C', // 1116 in hex
-  chainName: 'Core Blockchain Mainnet',
+const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe'; // Will be updated after BSC deployment
+const BSC_CHAIN_ID = 56; // BSC Mainnet
+const BSC_TESTNET_CHAIN_ID = 97; // BSC Testnet
+const BSC_NETWORK_CONFIG = {
+  chainId: '0x38', // 56 in hex (BSC Mainnet)
+  chainName: 'Binance Smart Chain Mainnet',
   nativeCurrency: {
-    name: 'CORE',
-    symbol: 'CORE',
+    name: 'BNB',
+    symbol: 'BNB',
     decimals: 18,
   },
-  rpcUrls: ['https://rpc-core.icecreamswap.com'],
-  blockExplorerUrls: ['https://scan.coredao.org'],
+  rpcUrls: ['https://bsc-dataseed1.binance.org'],
+  blockExplorerUrls: ['https://bscscan.com'],
+};
+
+const BSC_TESTNET_CONFIG = {
+  chainId: '0x61', // 97 in hex (BSC Testnet)
+  chainName: 'Binance Smart Chain Testnet',
+  nativeCurrency: {
+    name: 'tBNB',
+    symbol: 'tBNB',
+    decimals: 18,
+  },
+  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
+  blockExplorerUrls: ['https://testnet.bscscan.com'],
 };
 
 // ABI COMPLETO DEL CONTRATO
@@ -1104,8 +1117,8 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
     throw lastError!;
   };
 
-  // Enhanced network switching with better error handling
-  const switchToCore = async () => {
+  // Enhanced network switching to BSC
+  const switchToBSC = async () => {
     if (!window.ethereum) {
       toast.error('MetaMask is not installed!');
       return;
@@ -1115,15 +1128,15 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsLoading(true);
       setError(null);
       
-      // Try to switch to Core network with retry
+      // Try to switch to BSC network with retry
       await retryRequest(async () => {
         return window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: CORE_NETWORK_CONFIG.chainId }],
+          params: [{ chainId: BSC_NETWORK_CONFIG.chainId }],
         });
       }, 2, 1000, 'network switch');
       
-      toast.success('Switched to Core Blockchain successfully!');
+      toast.success('Switched to Binance Smart Chain successfully!');
     } catch (switchError: any) {
       // If the network doesn't exist, add it
       if (switchError.code === 4902) {
@@ -1131,26 +1144,26 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
           await retryRequest(async () => {
             return window.ethereum.request({
               method: 'wallet_addEthereumChain',
-              params: [CORE_NETWORK_CONFIG],
+              params: [BSC_NETWORK_CONFIG],
             });
           }, 2, 1000, 'network addition');
           
-          toast.success('Core Blockchain network added and switched successfully!');
+          toast.success('Binance Smart Chain network added and switched successfully!');
         } catch (addError: any) {
-          console.error('Error adding Core network:', addError);
+          console.error('Error adding BSC network:', addError);
           if (addError.code === 4001) {
             toast.error('Network addition rejected by user.');
           } else {
-            toast.error('Failed to add Core Blockchain network. Please add it manually.');
+            toast.error('Failed to add Binance Smart Chain network. Please add it manually.');
           }
-          setError('Failed to add Core network');
+          setError('Failed to add BSC network');
         }
       } else if (switchError.code === 4001) {
         toast.error('Network switch rejected by user');
         setError('Network switch rejected');
       } else {
-        console.error('Error switching to Core network:', switchError);
-        toast.error('Failed to switch to Core Blockchain network');
+        console.error('Error switching to BSC network:', switchError);
+        toast.error('Failed to switch to Binance Smart Chain network');
         setError('Network switch failed');
       }
     } finally {
@@ -1186,10 +1199,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setAccount(accounts[0]);
       setNetworkId(Number(networkId));
       
-      const isCore = Number(networkId) === CORE_CHAIN_ID;
-      setIsCorrectNetwork(isCore);
+      const isBSC = Number(networkId) === BSC_CHAIN_ID || Number(networkId) === BSC_TESTNET_CHAIN_ID;
+      setIsCorrectNetwork(isBSC);
       
-      if (isCore) {
+      if (isBSC) {
         const contractInstance = new web3Instance.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
         setContract(contractInstance);
         setIsConnected(true);
@@ -1203,7 +1216,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setIsOwner(isContractOwner);
           
           if (isContractOwner) {
-            console.log('🔑 Admin access granted - Contract owner detected');
+            console.log('🔑 Admin access granted - Contract owner detected on BSC');
           }
         } catch (ownerError) {
           console.error('Error checking contract owner:', ownerError);
@@ -1213,7 +1226,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Update balance in background
         updateBalance(web3Instance, accounts[0]).catch(console.error);
         
-        toast.success('Connected to Core Blockchain successfully!');
+        toast.success('Connected to Binance Smart Chain successfully!');
       } else {
         setContract(null);
         setIsConnected(false);
@@ -1221,7 +1234,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setBalance('0');
         setIsOwner(false);
         setError('Wrong network');
-        toast.error('Please switch to Core Blockchain Mainnet (Chain ID: 1116)');
+        toast.error('Please switch to Binance Smart Chain (Chain ID: 56)');
       }
     } catch (error: any) {
       console.error('Error setting up Web3 connection:', error);
@@ -1470,10 +1483,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           const newNetworkId = parseInt(chainId, 16);
           setNetworkId(newNetworkId);
-          const isCore = newNetworkId === CORE_CHAIN_ID;
-          setIsCorrectNetwork(isCore);
+          const isBSC = newNetworkId === BSC_CHAIN_ID || newNetworkId === BSC_TESTNET_CHAIN_ID;
+          setIsCorrectNetwork(isBSC);
           
-          if (isCore && web3 && account) {
+          if (isBSC && web3 && account) {
             const contractInstance = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
             setContract(contractInstance);
             setIsConnected(true);
@@ -1491,7 +1504,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
             
             await updateBalance(web3, account);
-            toast.success('Switched to Core Blockchain successfully!');
+            toast.success('Switched to Binance Smart Chain successfully!');
           } else {
             setContract(null);
             setIsConnected(false);
@@ -1499,8 +1512,8 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setBalance('0');
             setIsOwner(false);
             setError('Wrong network');
-            if (!isCore) {
-              toast.error('Please switch to Core Blockchain Mainnet (Chain ID: 1116)');
+            if (!isBSC) {
+              toast.error('Please switch to Binance Smart Chain (Chain ID: 56)');
             }
           }
         } catch (error: any) {
@@ -1633,7 +1646,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       networkId,
       balance,
       isCorrectNetwork,
-      switchToCore,
+      switchToBSC: switchToBSC,
       reconnectWallet,
       disconnectWallet,
       connectionState,

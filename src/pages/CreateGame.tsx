@@ -126,7 +126,7 @@ const CreateGame = () => {
                   placeholder="0.00"
                   required
                 />
-                <p className="text-gray-400 text-xxs mt-0.5">Min: 0.01 CORE</p>
+                <p className="text-gray-400 text-xxs mt-0.5">Min: 0.01 BNB</p>
               </div>
               
               <button
@@ -220,7 +220,7 @@ const CreateGame = () => {
                     placeholder="0x..."
                   />
                   <p className="text-gray-400 text-xxs mt-0.5">
-                    Earns commission
+                    Earns BNB commission
                   </p>
                 </div>
               </div>

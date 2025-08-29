@@ -153,7 +153,7 @@ const GameDetail = () => {
                 <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl">
                   <span className="text-gray-300">Bet Amount</span>
                   <span className="text-white font-medium">
-                    {web3?.utils.fromWei(game.betAmount, 'ether')} CORE
+                    {web3?.utils.fromWei(game.betAmount, 'ether')} BNB
                   </span>
                 </div>
                 

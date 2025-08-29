@@ -81,7 +81,7 @@ const Navbar = () => {
               {/* Network Warning */}
               {isConnected && !isCorrectNetwork && (
                 <button
-                  onClick={switchToCore}
+                  onClick={switchToBSC}
                   className="flex items-center space-x-2 px-4 py-2 bg-red-600/20 border border-red-500/50 text-red-400 rounded-xl text-sm font-semibold transition-all hover:bg-red-600/30 animate-pulse"
                 >
                   <AlertTriangle className="w-4 h-4 flex-shrink-0" />
@@ -94,7 +94,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
                     <div className="text-white text-sm font-bold">
-                      {parseFloat(balance).toFixed(3)} CORE
+                      {parseFloat(balance).toFixed(3)} BNB
                     </div>
                     <div className="text-slate-400 text-xs flex items-center space-x-2">
                       <span>{shortenAddress(account!)}</span>
@@ -155,7 +155,7 @@ const Navbar = () => {
               {/* Mobile Network Warning */}
               {isConnected && !isCorrectNetwork && (
                 <button
-                  onClick={switchToCore}
+                  onClick={switchToBSC}
                   className="flex items-center space-x-1 px-2 py-1 bg-red-600/20 border border-red-500/50 text-red-400 rounded-lg text-xs font-medium transition-all hover:bg-red-600/30 animate-pulse"
                 >
                   <AlertTriangle className="w-3 h-3 flex-shrink-0" />
@@ -168,7 +168,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-2">
                   <div className="text-right">
                     <div className="text-white text-sm font-bold">
-                      {parseFloat(balance).toFixed(2)}
+                      {parseFloat(balance).toFixed(2)} BNB
                     </div>
                     <div className="text-slate-400 text-xs flex items-center space-x-1">
                       <span>{shortenAddress(account!)}</span>
@@ -214,10 +214,10 @@ const Navbar = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 text-red-400 text-sm">
                 <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                <span>Wrong Network - Switch to Core Blockchain</span>
+                <span>Wrong Network - Switch to BSC</span>
               </div>
               <button
-                onClick={switchToCore}
+                onClick={switchToBSC}
                 className="px-3 py-1 bg-red-600 text-white rounded-lg text-sm font-medium"
               >
                 Switch

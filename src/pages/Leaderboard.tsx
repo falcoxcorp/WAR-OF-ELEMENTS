@@ -187,7 +187,7 @@ const Leaderboard = () => {
         <div className="bg-red-500/20 border border-red-500/50 rounded-2xl p-12 max-w-md mx-auto">
           <AlertTriangle className="w-16 h-16 text-red-400 mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-white mb-4">Wrong Network</h2>
-          <p className="text-red-300">Please switch to Core Blockchain to view the leaderboard.</p>
+          <p className="text-red-300">Please switch to Binance Smart Chain to view the leaderboard.</p>
         </div>
       </div>
     );
@@ -238,11 +238,10 @@ const Leaderboard = () => {
               <div className="text-center">
                 <p className="text-yellow-300 text-lg font-medium mb-2">Current Pool Amount</p>
                 <p className="text-5xl font-bold text-white mb-2">
-                  {parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0').toFixed(4)}
+                  {parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0').toFixed(4)} BNB
                 </p>
-                <p className="text-yellow-400 text-xl font-bold">CORE</p>
                 <p className="text-yellow-300 text-sm mt-2">
-                  ≈ ${(parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0') * 0.6415).toFixed(2)} USD
+                  ≈ ${(parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0') * 600).toFixed(2)} USD
                 </p>
               </div>
             </div>
@@ -276,13 +275,12 @@ const Leaderboard = () => {
                       
                       <div className={`bg-gradient-to-r ${reward.color}/30 border border-${reward.color.split('-')[1]}-500/50 rounded-xl p-3 mb-3`}>
                         <p className="text-white font-bold text-xl">
-                          {rewardAmount.toFixed(4)}
+                          {rewardAmount.toFixed(4)} BNB
                         </p>
-                        <p className={`${reward.textColor} text-sm font-medium`}>CORE</p>
                       </div>
                       
                       <p className="text-gray-300 text-xs">
-                        ≈ ${(rewardAmount * 0.6415).toFixed(2)} USD
+                        ≈ ${(rewardAmount * 600).toFixed(2)} USD
                       </p>
                       
                       {/* Show current player if they're in top 5 */}
@@ -605,10 +603,10 @@ const Leaderboard = () => {
             <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded-xl p-4">
               <p className="text-yellow-400 text-sm mb-1">Total Prize Pool</p>
               <p className="text-3xl font-bold text-white">
-                {parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0').toFixed(4)} CORE
+                {parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0').toFixed(4)} BNB
               </p>
               <p className="text-yellow-300 text-sm">
-                ≈ ${(parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0') * 0.6415).toFixed(2)} USD
+                ≈ ${(parseFloat(web3?.utils.fromWei(rewardPool, 'ether') || '0') * 600).toFixed(2)} USD
               </p>
             </div>
             <ul className="space-y-2 text-gray-300 mt-4">

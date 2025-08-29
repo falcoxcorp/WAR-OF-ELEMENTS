@@ -321,7 +321,7 @@ const Statistics = () => {
         <div className="bg-red-500/20 border border-red-500/50 rounded-2xl p-12 max-w-md mx-auto">
           <AlertTriangle className="w-16 h-16 text-red-400 mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-white mb-4">Wrong Network</h2>
-          <p className="text-red-300">Please switch to Core Blockchain to view statistics.</p>
+          <p className="text-red-300">Please switch to Binance Smart Chain to view statistics.</p>
         </div>
       </div>
     );
@@ -399,10 +399,10 @@ const Statistics = () => {
                 <div className="text-center">
                   <p className="text-yellow-300 text-xs mb-1">Monthly Reward Potential</p>
                   <p className="text-yellow-400 font-bold text-lg">
-                    {parseFloat(web3?.utils.fromWei(currentUserStats.poolReward, 'ether') || '0').toFixed(4)} CORE
+                    {parseFloat(web3?.utils.fromWei(currentUserStats.poolReward, 'ether') || '0').toFixed(4)} BNB
                   </p>
                   <p className="text-yellow-300 text-xs">
-                    {currentUserStats.poolPercentage}% of {parseFloat(web3?.utils.fromWei(contractStats.rewardPool, 'ether') || '0').toFixed(4)} CORE pool
+                    {currentUserStats.poolPercentage}% of {parseFloat(web3?.utils.fromWei(contractStats.rewardPool, 'ether') || '0').toFixed(4)} BNB pool
                   </p>
                 </div>
               </div>

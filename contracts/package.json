@@ -1,0 +1,44 @@
+{
+  "name": "omdb-arena-bsc-contracts",
+  "version": "1.0.0",
+  "description": "Rock Paper Scissors Arena Smart Contracts for Binance Smart Chain",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network bscTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.js --network bscMainnet",
+    "verify:testnet": "hardhat verify --network bscTestnet",
+    "verify:mainnet": "hardhat verify --network bscMainnet",
+    "flatten": "hardhat flatten contracts/RockPaperScissors.sol > flattened.sol",
+    "size": "hardhat size-contracts",
+    "gas-report": "REPORT_GAS=true hardhat test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "chai": "^4.3.8",
+    "dotenv": "^16.3.1",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.17.2",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-gas-reporter": "^1.0.9"
+  },
+  "keywords": [
+    "blockchain",
+    "bsc",
+    "binance-smart-chain",
+    "gaming",
+    "rock-paper-scissors",
+    "smart-contracts",
+    "solidity"
+  ],
+  "author": "OMDB Arena Team",
+  "license": "MIT"
+}

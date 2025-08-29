@@ -233,11 +233,11 @@ const Footer: React.FC = () => {
               <div className="flex items-center space-x-2 text-slate-400">
                 <span>Powered by</span>
                 <img 
-                  src="https://photos.pinksale.finance/file/pinksale-logo-upload/1754331659815-8a6a69a354540d190c6907808067d1f2.png" 
-                  alt="CORE" 
+                  src="https://cryptologos.cc/logos/bnb-bnb-logo.png" 
+                  alt="BNB" 
                   className="w-4 h-4 rounded-full"
                 />
-                <span className="font-semibold">Core Blockchain</span>
+                <span className="font-semibold">Binance Smart Chain</span>
               </div>
             </div>
 
@@ -250,7 +250,7 @@ const Footer: React.FC = () => {
               
               <div className="flex items-center space-x-2 bg-slate-900/50 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-800/50">
                 <Activity className="w-4 h-4 text-blue-400" />
-                <span className="text-sm text-slate-300">Chain ID: 1116</span>
+                <span className="text-sm text-slate-300">Chain ID: 56</span>
               </div>
             </div>
           </div>

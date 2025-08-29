@@ -131,7 +131,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error fetching games:', err);
       setError(err.message);
-      toast.error('Error fetching games from Core Blockchain');
+      toast.error('Error fetching games from BSC');
     } finally {
       setLoading(false);
     }
@@ -165,7 +165,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error fetching player stats:', err);
       setError(err.message);
-      toast.error('Error fetching player stats from Core Blockchain');
+      toast.error('Error fetching player stats from BSC');
     } finally {
       setLoading(false);
     }
@@ -173,7 +173,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const createGame = async (moveHash: string, betAmount: string, referrer?: string, move?: number, secret?: string) => {
     if (!contract || !account || !web3 || !isCorrectNetwork) {
-      toast.error('Please connect to Core Blockchain first');
+      toast.error('Please connect to Binance Smart Chain first');
       return;
     }
     
@@ -251,7 +251,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const joinGame = async (gameId: number, move: number, betAmount: string) => {
     if (!contract || !account || !web3 || !isCorrectNetwork) {
-      toast.error('Please connect to Core Blockchain first');
+      toast.error('Please connect to Binance Smart Chain first');
       return;
     }
     
@@ -274,7 +274,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const userBalanceEther = web3.utils.fromWei(userBalance, 'ether');
         const requiredBalanceEther = web3.utils.fromWei(requiredBalanceWei.toString(), 'ether');
         
-        throw new Error(`Insufficient balance. You have ${parseFloat(userBalanceEther).toFixed(4)} CORE but need at least ${parseFloat(requiredBalanceEther).toFixed(4)} CORE (including gas fees)`);
+        throw new Error(`Insufficient balance. You have ${parseFloat(userBalanceEther).toFixed(4)} BNB but need at least ${parseFloat(requiredBalanceEther).toFixed(4)} BNB (including gas fees)`);
       }
       
       // Estimate gas first
@@ -293,7 +293,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error joining game:', err);
       setError(err.message);
-      toast.error('Error joining game on Core Blockchain: ' + err.message);
+      toast.error('Error joining game on BSC: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -319,7 +319,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const revealMove = async (gameId: number, move?: number, secret?: string) => {
     if (!contract || !account || !isCorrectNetwork) {
-      toast.error('Please connect to Core Blockchain first');
+      toast.error('Please connect to Binance Smart Chain first');
       return;
     }
     
@@ -362,7 +362,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error revealing move:', err);
       setError(err.message);
-      toast.error('Error revealing move on Core Blockchain');
+      toast.error('Error revealing move on BSC');
     } finally {
       setLoading(false);
     }
@@ -370,7 +370,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const cancelGame = async (gameId: number) => {
     if (!contract || !account || !isCorrectNetwork) {
-      toast.error('Please connect to Core Blockchain first');
+      toast.error('Please connect to Binance Smart Chain first');
       return;
     }
     
@@ -397,7 +397,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error cancelling game:', err);
       setError(err.message);
-      toast.error('Error cancelling game on Core Blockchain');
+      toast.error('Error cancelling game on BSC');
     } finally {
       setLoading(false);
     }
@@ -405,7 +405,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const claimTimeout = async (gameId: number) => {
     if (!contract || !account || !isCorrectNetwork) {
-      toast.error('Please connect to Core Blockchain first');
+      toast.error('Please connect to Binance Smart Chain first');
       return;
     }
     
@@ -428,7 +428,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (err: any) {
       console.error('Error claiming timeout:', err);
       setError(err.message);
-      toast.error('Error claiming timeout on Core Blockchain');
+      toast.error('Error claiming timeout on BSC');
     } finally {
       setLoading(false);
     }

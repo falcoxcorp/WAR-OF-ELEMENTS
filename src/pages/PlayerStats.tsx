@@ -103,9 +103,8 @@ const PlayerStats = () => {
                 </span>
                 {winStreak >= 3 && (
                   <>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-orange-400 font-bold flex items-center space-x-1 text-xs">
-                      <Flame className="w-3 h-3" />
+                        ? (parseFloat(web3?.utils.fromWei(player.totalWagered, 'ether') || '0') / player.gamesPlayed).toFixed(4) + ' BNB'
+                        : '0.0000 BNB'
                       <span>{winStreak} Win Streak</span>
                     </span>
                   </>
@@ -394,7 +393,7 @@ const PlayerStats = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-white font-bold text-xs">{totalWagered.toFixed(6)}</span>
-                  <span className="text-blue-400 text-xxs ml-1">CORE</span>
+                  <span className="text-blue-400 text-xxs ml-1">BNB</span>
                 </div>
               </div>
               
@@ -405,7 +404,7 @@ const PlayerStats = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-green-400 font-bold text-sm">{totalWon.toFixed(6)}</span>
-                  <span className="text-green-300 text-xxs ml-1">CORE</span>
+                  <span className="text-green-300 text-xxs ml-1">BNB</span>
                 </div>
               </div>
               
@@ -416,7 +415,7 @@ const PlayerStats = () => {
                 </div>
                 <div className="text-right">
                   <span className="text-white font-bold text-xs">{avgBetSize.toFixed(6)}</span>
-                  <span className="text-orange-400 text-xxs ml-1">CORE</span>
+                  <span className="text-orange-400 text-xxs ml-1">BNB</span>
                 </div>
               </div>
               
@@ -428,7 +427,7 @@ const PlayerStats = () => {
                   </div>
                   <div className="text-right">
                     <span className="text-purple-400 font-bold text-xs">{referralEarnings.toFixed(6)}</span>
-                    <span className="text-purple-300 text-xxs ml-1">CORE</span>
+                    <span className="text-purple-300 text-xxs ml-1">BNB</span>
                   </div>
                 </div>
               )}
@@ -439,7 +438,7 @@ const PlayerStats = () => {
               <h4 className="text-blue-400 font-bold mb-1 text-xs">💡 How Earnings Work</h4>
               <p className="text-blue-300 text-xxs">
                 When you win a game, you receive your bet back plus 80% of your opponent's bet. 
-                The "Won" amount shows your total winnings from all victories.
+                The "Won" amount shows your total BNB winnings from all victories.
               </p>
             </div>
           </div>
@@ -540,7 +539,7 @@ const PlayerStats = () => {
         <p className="text-gray-300 mb-3 text-xs">
           {winRate >= 60 
             ? "You're on fire! Keep that winning streak going!" 
-            : "Every game is a chance to improve. Let's get back in there!"
+            : "Every game is a chance to improve and earn more BNB!"
           }
         </p>
         <div className="flex flex-col sm:flex-row gap-2 justify-center">

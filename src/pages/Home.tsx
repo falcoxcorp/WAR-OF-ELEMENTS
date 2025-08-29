@@ -233,7 +233,7 @@ const Home = () => {
                     </span>
                   </h1>
                   <p className="text-lg sm:text-xl text-slate-400 font-medium mt-4">
-                    Professional Gaming Platform
+                    Professional Gaming on BSC
                   </p>
                 </div>
               </div>
@@ -243,12 +243,12 @@ const Home = () => {
                 <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                   Strategic Gaming Meets
                   <span className="block bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                    Blockchain Innovation
+                    BSC Innovation
                   </span>
                 </h2>
                 <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
                   Experience the future of competitive gaming with provably fair mechanics, 
-                  instant rewards, and enterprise-grade security on Core Blockchain.
+                  instant rewards, and enterprise-grade security on Binance Smart Chain.
                 </p>
               </div>
 
@@ -546,7 +546,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: "Core Blockchain", desc: "High-performance network", icon: <Layers className="w-8 h-8" />, color: "from-blue-500 to-cyan-500" },
+              { name: "Binance Smart Chain", desc: "High-performance network", icon: <Layers className="w-8 h-8" />, color: "from-yellow-500 to-orange-500" },
               { name: "Smart Contracts", desc: "Audited & verified", icon: <Code className="w-8 h-8" />, color: "from-purple-500 to-pink-500" },
               { name: "Web3 Integration", desc: "Seamless wallet connection", icon: <Globe className="w-8 h-8" />, color: "from-emerald-500 to-teal-500" },
               { name: "Real-time API", desc: "Live data synchronization", icon: <Database className="w-8 h-8" />, color: "from-orange-500 to-red-500" }
@@ -585,8 +585,8 @@ const Home = () => {
                   </h2>
                   
                   <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-                    Join the next generation of competitive gaming. Experience fair play, 
-                    instant rewards, and professional-grade gaming infrastructure.
+                    Join the next generation of competitive gaming on BSC. Experience fair play, 
+                    instant BNB rewards, and professional-grade gaming infrastructure.
                   </p>
                 </div>
 
