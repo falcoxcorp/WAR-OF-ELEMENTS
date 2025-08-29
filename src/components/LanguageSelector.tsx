@@ -130,9 +130,10 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
         className={`
-          ${config.button} ${variantStyles[variant]}
-          flex items-center space-x-2 rounded-xl font-medium transition-all duration-300
+          ${config.button} ${variantStyles[variant]} 
+          flex items-center space-x-1 sm:space-x-2 rounded-lg sm:rounded-xl font-medium transition-all duration-300
           hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:outline-none
+          min-w-0 max-w-20 sm:max-w-none
           ${isOpen ? 'ring-2 ring-blue-500' : ''}
         `}
         aria-label={t('common.selectLanguage')}
@@ -149,9 +150,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         )}
         
         {/* Language name */}
-        <span className="text-white truncate">
+        <span className="text-white truncate min-w-0">
           {variant === 'navbar' ? (
-            <span className="hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
+            <span className="text-xs">{currentLanguage.code.toUpperCase()}</span>
           ) : showNativeName ? (
             currentLanguage.nativeName
           ) : (
@@ -162,40 +163,40 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         {/* Dropdown arrow */}
         <ChevronDown className={`${config.icon} text-gray-400 transition-transform duration-200 ${
           isOpen ? 'rotate-180' : ''
-        }`} />
+        } flex-shrink-0`} />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
         <div className={`
-          absolute ${variant === 'navbar' ? 'top-full right-0 mt-2' : variant === 'modal' ? 'top-full left-0 mt-2' : 'bottom-full left-0 mb-2'}
+          absolute ${variant === 'navbar' ? 'top-full right-0 mt-1 sm:mt-2' : variant === 'modal' ? 'top-full left-0 mt-1 sm:mt-2' : 'bottom-full left-0 mb-1 sm:mb-2'}
           ${config.dropdown} max-h-80 bg-slate-900/95 backdrop-blur-xl 
-          border border-slate-700/50 rounded-2xl shadow-2xl z-50 overflow-hidden
+          border border-slate-700/50 rounded-xl sm:rounded-2xl shadow-2xl z-50 overflow-hidden
           animate-fadeIn
         `}>
           {/* Search Input */}
-          <div className="p-3 border-b border-slate-700/50">
+          <div className="p-2 sm:p-3 border-b border-slate-700/50">
             <input
               ref={searchRef}
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={t('common.searchLanguages')}
-              className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
+              className="w-full bg-slate-800/50 border border-slate-600/50 rounded-md sm:rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-xs sm:text-sm"
               onKeyDown={handleKeyDown}
             />
           </div>
 
           {/* Language List */}
-          <div className="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800">
+          <div className="max-h-48 sm:max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-800">
             {filteredLanguages.length > 0 ? (
-              <div className="p-2">
+              <div className="p-1 sm:p-2">
                 {filteredLanguages.map((language) => (
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language.code)}
                     className={`
-                      w-full flex items-center justify-between px-3 py-2 rounded-lg
+                      w-full flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg
                       transition-all duration-200 text-left group
                       ${i18n.language === language.code
                         ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
@@ -205,25 +206,25 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                     role="option"
                     aria-selected={i18n.language === language.code}
                   >
-                    <div className="flex items-center space-x-3 min-w-0 flex-1">
+                    <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
                       {/* Flag */}
-                      <span className={`${config.flag} flex-shrink-0`}>
+                      <span className="text-sm sm:text-base flex-shrink-0">
                         {language.flag}
                       </span>
                       
                       {/* Language names */}
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-medium truncate">
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                          <span className="font-medium truncate text-xs sm:text-sm">
                             {language.nativeName}
                           </span>
                           {language.rtl && (
-                            <span className="px-1 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">
+                            <span className="px-1 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded flex-shrink-0">
                               RTL
                             </span>
                           )}
                         </div>
-                        <div className="text-xs opacity-75 truncate">
+                        <div className="text-xs opacity-75 truncate hidden sm:block">
                           {language.name}
                         </div>
                       </div>
@@ -231,25 +232,25 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
                     {/* Selected indicator */}
                     {i18n.language === language.code && (
-                      <Check className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                      <Check className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 flex-shrink-0" />
                     )}
                   </button>
                 ))}
               </div>
             ) : (
-              <div className="p-4 text-center text-gray-400">
-                <Globe className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm">{t('common.noLanguagesFound')}</p>
+              <div className="p-3 sm:p-4 text-center text-gray-400">
+                <Globe className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 opacity-50" />
+                <p className="text-xs sm:text-sm">{t('common.noLanguagesFound')}</p>
               </div>
             )}
           </div>
 
           {/* Footer */}
-          <div className="p-3 border-t border-slate-700/50 bg-slate-800/30">
+          <div className="p-2 sm:p-3 border-t border-slate-700/50 bg-slate-800/30">
             <div className="flex items-center justify-between text-xs text-gray-400">
               <span>{filteredLanguages.length} languages</span>
               <span className="flex items-center space-x-1">
-                <Globe className="w-3 h-3" />
+                <Globe className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                 <span>Global</span>
               </span>
             </div>
