@@ -1330,12 +1330,31 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (currentNetworkId !== BSC_CHAIN_ID && currentNetworkId !== BSC_TESTNET_CHAIN_ID) {
         console.log('⚠️ Red incorrecta detectada. Actual:', currentNetworkId, 'Esperado:', BSC_CHAIN_ID);
-        toast('Detectada red incorrecta. Cambiando a BSC automáticamente...', {
+        toast('⚠️ Detectada red incorrecta. Cambiando a BSC automáticamente...', {
           icon: '⚠️',
           duration: 3000
         });
         await switchToBSC();
-        return; // Exit here, the network change will trigger reconnection
+        
+        // Wait for network change to complete, then retry connection
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Retry connection after network switch
+        try {
+          const newChainId = await window.ethereum.request({ method: 'eth_chainId' });
+          const newNetworkId = parseInt(newChainId, 16);
+          
+          if (newNetworkId === BSC_CHAIN_ID || newNetworkId === BSC_TESTNET_CHAIN_ID) {
+            console.log('✅ Network switch successful, continuing connection...');
+            // Continue with connection setup
+          } else {
+            throw new Error(`Network switch failed. Still on network ${newNetworkId}`);
+          }
+        } catch (switchError) {
+          console.error('❌ Network switch verification failed:', switchError);
+          toast.error('❌ No se pudo cambiar a BSC. Por favor cambia manualmente en MetaMask.');
+          return;
+        }
       } else {
         console.log('✅ Red BSC detectada correctamente');
       }

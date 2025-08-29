@@ -173,7 +173,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const createGame = async (moveHash: string, betAmount: string, referrer?: string, move?: number, secret?: string) => {
     if (!contract || !account || !web3 || !isCorrectNetwork) {
-      toast.error('Please connect to Binance Smart Chain first');
+      toast.error('Por favor conecta a Binance Smart Chain primero');
       return;
     }
     
@@ -181,69 +181,194 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLoading(true);
       setError(null);
       
+      console.log('🎮 Creating game with params:', {
+        moveHash,
+        betAmount,
+        referrer: referrer || 'none',
+        account
+      });
+      
       const weiAmount = web3.utils.toWei(betAmount, 'ether');
       const referrerAddress = referrer || '0x0000000000000000000000000000000000000000';
       
-      // Estimate gas first
-      const gasEstimate = await contract.methods.createGame(moveHash, referrerAddress)
-        .estimateGas({ from: account, value: weiAmount });
+      console.log('💰 Wei amount:', weiAmount);
+      console.log('👥 Referrer address:', referrerAddress);
       
-      const tx = await contract.methods.createGame(moveHash, referrerAddress)
-        .send({ 
-          from: account, 
-          value: weiAmount,
-          gas: Math.floor(Number(gasEstimate) * 1.2) // Add 20% buffer
-        });
+      // Enhanced gas estimation with multiple fallbacks
+      let gasEstimate;
+      let gasPrice;
       
-      // Get the game ID from the transaction receipt
-      const receipt = await web3.eth.getTransactionReceipt(tx.transactionHash);
-      let gameId = null;
-      
-      // Parse the GameCreated event to get the actual game ID
-      if (receipt.logs && receipt.logs.length > 0) {
-        for (const log of receipt.logs) {
+      try {
+        console.log('⛽ Estimating gas...');
+        
+        // Try multiple RPC endpoints for gas estimation
+        const rpcEndpoints = [
+          'https://bsc-dataseed1.binance.org',
+          'https://bsc-dataseed2.binance.org',
+          'https://bsc-dataseed3.binance.org',
+          'https://rpc.ankr.com/bsc'
+        ];
+        
+        let estimationSuccess = false;
+        
+        for (const rpcUrl of rpcEndpoints) {
           try {
-            const decodedLog = web3.eth.abi.decodeLog(
-              [
-                { type: 'uint256', name: 'gameId', indexed: true },
-                { type: 'address', name: 'creator', indexed: true },
-                { type: 'uint256', name: 'betAmount' },
-                { type: 'bytes32', name: 'moveHash' },
-                { type: 'address', name: 'referrer' }
-              ],
-              log.data,
-              log.topics
-            );
+            console.log(`🔄 Trying RPC: ${rpcUrl}`);
+            const tempWeb3 = new (window as any).Web3(rpcUrl);
+            const tempContract = new tempWeb3.eth.Contract(contract.options.jsonInterface, contract.options.address);
             
-            if (decodedLog.gameId) {
-              gameId = Number(decodedLog.gameId);
-              break;
+            gasEstimate = await tempContract.methods.createGame(moveHash, referrerAddress)
+              .estimateGas({ from: account, value: weiAmount });
+            
+            gasPrice = await tempWeb3.eth.getGasPrice();
+            estimationSuccess = true;
+            console.log('✅ Gas estimation successful with RPC:', rpcUrl);
+            break;
+          } catch (rpcError) {
+            console.warn(`⚠️ RPC ${rpcUrl} failed:`, rpcError.message);
+            continue;
+          }
+        }
+        
+        if (!estimationSuccess) {
+          throw new Error('All RPC endpoints failed for gas estimation');
+        }
+        
+      } catch (gasError) {
+        console.warn('⚠️ Gas estimation failed, using fallback values:', gasError.message);
+        
+        // Fallback gas values for BSC
+        gasEstimate = 300000; // Safe default for createGame
+        gasPrice = web3.utils.toWei('5', 'gwei'); // Standard BSC gas price
+        
+        toast('⚠️ Usando valores de gas por defecto debido a problemas de RPC', {
+          icon: '⛽',
+          duration: 3000
+        });
+      }
+      
+      console.log('⛽ Gas estimate:', gasEstimate);
+      console.log('💸 Gas price:', gasPrice);
+      
+      // Enhanced transaction with retry mechanism
+      const maxRetries = 3;
+      let lastError;
+      
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          console.log(`🚀 Transaction attempt ${attempt}/${maxRetries}`);
+          
+          const txParams = {
+            from: account,
+            value: weiAmount,
+            gas: Math.floor(Number(gasEstimate) * 1.3), // 30% buffer
+            gasPrice: gasPrice
+          };
+          
+          console.log('📝 Transaction params:', txParams);
+          
+          const tx = await contract.methods.createGame(moveHash, referrerAddress).send(txParams);
+          
+          console.log('✅ Transaction successful:', tx.transactionHash);
+          
+          // Get the game ID from the transaction receipt
+          const receipt = await web3.eth.getTransactionReceipt(tx.transactionHash);
+          let gameId = null;
+          
+          // Parse the GameCreated event to get the actual game ID
+          if (receipt.logs && receipt.logs.length > 0) {
+            for (const log of receipt.logs) {
+              try {
+                const decodedLog = web3.eth.abi.decodeLog(
+                  [
+                    { type: 'uint256', name: 'gameId', indexed: true },
+                    { type: 'address', name: 'creator', indexed: true },
+                    { type: 'uint256', name: 'betAmount' },
+                    { type: 'bytes32', name: 'moveHash' },
+                    { type: 'address', name: 'referrer' }
+                  ],
+                  log.data,
+                  log.topics
+                );
+                
+                if (decodedLog.gameId) {
+                  gameId = Number(decodedLog.gameId);
+                  break;
+                }
+              } catch (e) {
+                // Continue to next log if this one can't be decoded
+              }
             }
-          } catch (e) {
-            // Continue to next log if this one can't be decoded
+          }
+          
+          // If we couldn't get the game ID from events, try to find it by fetching recent games
+          if (!gameId) {
+            try {
+              const gameCount = await contract.methods.gameCounter().call();
+              gameId = Number(gameCount);
+            } catch (counterError) {
+              console.warn('Could not get game counter:', counterError);
+            }
+          }
+          
+          // Save the secret with the actual game ID if we have move and secret
+          if (gameId && move && secret) {
+            saveGameSecret(gameId, move, secret, moveHash);
+            toast.success(`🎮 ¡Juego #${gameId} creado exitosamente! Secreto guardado para auto-reveal.`);
+          } else {
+            toast.success(`🎮 ¡Juego creado exitosamente! Tx: ${tx.transactionHash}`);
+          }
+          
+          await refreshData();
+          return; // Success, exit retry loop
+          
+        } catch (attemptError: any) {
+          lastError = attemptError;
+          console.error(`❌ Transaction attempt ${attempt} failed:`, attemptError.message);
+          
+          // Don't retry if user rejected
+          if (attemptError.code === 4001 || attemptError.message?.includes('User rejected')) {
+            throw attemptError;
+          }
+          
+          // Don't retry if insufficient funds
+          if (attemptError.message?.includes('insufficient funds') || 
+              attemptError.message?.includes('exceeds balance')) {
+            throw attemptError;
+          }
+          
+          // Wait before retry (except on last attempt)
+          if (attempt < maxRetries) {
+            const delay = 2000 * attempt; // Progressive delay
+            console.log(`⏳ Waiting ${delay}ms before retry...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
           }
         }
       }
       
-      // If we couldn't get the game ID from events, try to find it by fetching recent games
-      if (!gameId) {
-        const gameCount = await contract.methods.gameCounter().call();
-        gameId = Number(gameCount);
-      }
+      // If all retries failed, throw the last error
+      throw lastError;
       
-      // Save the secret with the actual game ID if we have move and secret
-      if (gameId && move && secret) {
-        saveGameSecret(gameId, move, secret, moveHash);
-        toast.success(`Game #${gameId} created successfully! Secret saved for auto-reveal.`);
-      } else {
-        toast.success(`Game created successfully! Tx: ${tx.transactionHash}`);
-      }
-      
-      await refreshData();
     } catch (err: any) {
       console.error('Error creating game:', err);
       setError(err.message);
-      toast.error('Error creating game on BSC');
+      
+      // Enhanced error messages
+      const errorMessage = err.message || err.toString() || '';
+      
+      if (errorMessage.includes('insufficient funds')) {
+        toast.error('❌ Fondos insuficientes. Necesitas más BNB para la apuesta + gas fees.');
+      } else if (errorMessage.includes('User rejected') || err.code === 4001) {
+        toast.error('❌ Transacción rechazada por el usuario.');
+      } else if (errorMessage.includes('gas')) {
+        toast.error('❌ Error de gas. Intenta con un gas price más alto.');
+      } else if (errorMessage.includes('nonce')) {
+        toast.error('❌ Error de nonce. Resetea tu cuenta en MetaMask.');
+      } else if (errorMessage.includes('Internal JSON-RPC error')) {
+        toast.error('❌ Error de RPC de BSC. Los servidores están sobrecargados. Intenta en unos minutos.');
+      } else {
+        toast.error(`❌ Error creando juego: ${errorMessage}`);
+      }
     } finally {
       setLoading(false);
     }
