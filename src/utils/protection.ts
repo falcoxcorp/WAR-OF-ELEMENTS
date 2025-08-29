@@ -70,7 +70,7 @@ const deobfuscateString = (str: string): string => {
 
 // Critical constants obfuscation
 const OBFUSCATED_CONSTANTS = {
-  CONTRACT_ADDRESS: obfuscateString('0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697'),
+  CONTRACT_ADDRESS: obfuscateString('0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe'),
   CORE_CHAIN_ID: obfuscateString('1116'),
   RPC_URL: obfuscateString('https://rpc-core.icecreamswap.com'),
   API_BASE: obfuscateString('/api')
