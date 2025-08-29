@@ -205,8 +205,8 @@ const Home = () => {
           <circle cx="16" cy="15" r="4" fill="currentColor" fillOpacity="0.8"/>
         </svg>
       ),
-      title: "Enterprise Security",
-      description: "Military-grade encryption and smart contract auditing",
+      title: t('features.enterpriseSecurity'),
+      description: t('features.securityDesc'),
       color: "from-blue-500 to-cyan-500",
       delay: "0ms",
       accent: "🛡️"
@@ -220,8 +220,8 @@ const Home = () => {
           <circle cx="16" cy="24" r="2" fill="currentColor"/>
         </svg>
       ),
-      title: "Lightning Performance",
-      description: "Sub-second transactions on Core Blockchain infrastructure",
+      title: t('features.lightningPerformance'),
+      description: t('features.performanceDesc'),
       color: "from-yellow-500 to-orange-500",
       delay: "200ms",
       accent: "⚡"
@@ -235,8 +235,8 @@ const Home = () => {
           <rect x="14" y="20" width="4" height="6" fill="currentColor" fillOpacity="0.8"/>
         </svg>
       ),
-      title: "Competitive Rewards",
-      description: "Real CORE token rewards with transparent distribution",
+      title: t('features.competitiveRewards'),
+      description: t('features.rewardsDesc'),
       color: "from-purple-500 to-pink-500",
       delay: "400ms",
       accent: "🏆"
@@ -252,8 +252,8 @@ const Home = () => {
           <circle cx="24" cy="22" r="1.5" fill="currentColor" fillOpacity="0.7"/>
         </svg>
       ),
-      title: "Global Network",
-      description: "Decentralized gaming ecosystem with worldwide access",
+      title: t('features.globalNetwork'),
+      description: t('features.networkDesc'),
       color: "from-green-500 to-emerald-500",
       delay: "600ms",
       accent: "🌐"
@@ -262,33 +262,33 @@ const Home = () => {
 
   const gameElements = [
     {
-      name: "FIRE",
+      name: t('game.elements.fire').toUpperCase(),
       symbol: "🔥",
-      description: "Aggressive strategy with high-risk, high-reward gameplay",
-      strength: "Dominates Plant-based strategies",
+      description: t('game.elements.fireDesc'),
+      strength: t('game.elements.fireStrength'),
       gradient: "from-red-600 via-orange-500 to-yellow-500",
       bgPattern: "from-red-900/20 via-orange-900/10 to-yellow-900/5"
     },
     {
-      name: "WATER",
+      name: t('game.elements.water').toUpperCase(),
       symbol: "💧",
-      description: "Adaptive tactics with fluid counter-strategies",
-      strength: "Neutralizes Fire-based approaches",
+      description: t('game.elements.waterDesc'),
+      strength: t('game.elements.waterStrength'),
       gradient: "from-blue-600 via-cyan-500 to-teal-500",
       bgPattern: "from-blue-900/20 via-cyan-900/10 to-teal-900/5"
     },
     {
-      name: "PLANT",
+      name: t('game.elements.plant').toUpperCase(),
       symbol: "🌿",
-      description: "Sustainable growth with defensive positioning",
-      strength: "Absorbs Water-based tactics",
+      description: t('game.elements.plantDesc'),
+      strength: t('game.elements.plantStrength'),
       gradient: "from-green-600 via-emerald-500 to-lime-500",
       bgPattern: "from-green-900/20 via-emerald-900/10 to-lime-900/5"
     }
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 ${isRTL() ? 'rtl' : 'ltr'}`}>
       {/* Sophisticated Background */}
       <div className="fixed inset-0 -z-10">
         {/* Geometric patterns */}
@@ -338,29 +338,28 @@ const Home = () => {
                   />
                 </div>
                 <div className="text-left">
-                  <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black leading-none">
-                    <span className="block text-white mb-2">OMDB</span>
+                  <h1 className={`text-4xl sm:text-6xl lg:text-8xl font-black leading-none ${isRTL() ? 'text-right' : 'text-left'}`}>
+                    <span className="block text-white mb-2">{t('game.title').split(' ')[0]}</span>
                     <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-                      ARENA
+                      {t('game.title').split(' ')[1] || 'ARENA'}
                     </span>
                   </h1>
-                  <p className="text-lg sm:text-xl text-slate-400 font-medium mt-4">
-                    Professional Gaming on BSC
+                  <p className={`text-lg sm:text-xl text-slate-400 font-medium mt-4 ${isRTL() ? 'text-right' : 'text-left'}`}>
+                    {t('game.subtitle')}
                   </p>
                 </div>
               </div>
 
               {/* Tagline */}
               <div className="max-w-4xl mx-auto mb-12">
-                <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                  Strategic Gaming Meets
+                <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight ${isRTL() ? 'text-right' : 'text-center'}`}>
+                  {t('game.tagline').split(' ').slice(0, -2).join(' ')}
                   <span className="block bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                    BSC Innovation
+                    {t('game.tagline').split(' ').slice(-2).join(' ')}
                   </span>
                 </h2>
-                <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                  Experience the future of competitive gaming with provably fair mechanics, 
-                  instant rewards, and enterprise-grade security on Binance Smart Chain.
+                <p className={`text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto ${isRTL() ? 'text-right' : 'text-center'}`}>
+                  {t('game.description')}
                 </p>
               </div>
 
@@ -375,7 +374,7 @@ const Home = () => {
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                       <div className="relative flex items-center space-x-3">
                         <Play className="w-6 h-6" />
-                        <span>Start Gaming</span>
+                        <span>{t('game.actions.startPlaying')}</span>
                         <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </Link>
@@ -385,7 +384,7 @@ const Home = () => {
                     >
                       <div className="flex items-center space-x-3">
                         <Swords className="w-6 h-6" />
-                        <span>Browse Games</span>
+                        <span>{t('navigation.games')}</span>
                       </div>
                     </Link>
                   </>
@@ -397,7 +396,7 @@ const Home = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                     <div className="relative flex items-center space-x-4">
                       <Shield className="w-8 h-8" />
-                      <span>Connect Wallet</span>
+                      <span>{t('wallet.connect')}</span>
                       <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
                     </div>
                   </button>
@@ -424,7 +423,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { 
-                label: "ACTIVE GAMES", 
+                label: t('leaderboard.activePlayers').toUpperCase(), 
                 value: totalGames, 
                 suffix: "", 
                 icon: (
@@ -442,7 +441,7 @@ const Home = () => {
                 loading: loadingStats
               },
               { 
-                label: "REGISTERED PLAYERS", 
+                label: t('admin.totalPlayers').toUpperCase(), 
                 value: totalPlayers, 
                 suffix: "", 
                 icon: (
@@ -460,9 +459,9 @@ const Home = () => {
                 loading: loadingStats
               },
               { 
-                label: "TOTAL VOLUME", 
+                label: t('leaderboard.totalVolume').toUpperCase(), 
                 value: animatedVolume, 
-                suffix: " CORE", 
+                suffix: ` ${t('currency.core')}`, 
                 icon: (
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <ellipse cx="16" cy="8" rx="12" ry="4" fill="currentColor" fillOpacity="0.8"/>
@@ -503,7 +502,7 @@ const Home = () => {
                       <div className="animate-pulse bg-slate-700 h-10 w-24 mx-auto rounded"></div>
                     ) : (
                       <>
-                        {stat.isDecimal ? stat.value.toFixed(2) : stat.value.toLocaleString()}{stat.suffix}
+                        {stat.isDecimal ? formatNumber(stat.value, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : formatNumber(stat.value)}{stat.suffix}
                       </>
                     )}
                   </h3>
@@ -515,7 +514,7 @@ const Home = () => {
                   {!stat.loading && (
                     <div className="flex items-center justify-center space-x-2">
                       <div className={`w-2 h-2 bg-gradient-to-r ${stat.color} rounded-full animate-pulse`}></div>
-                      <span className="text-emerald-400 text-xs font-medium">LIVE DATA</span>
+                      <span className="text-emerald-400 text-xs font-medium">{t('common.loading').replace('...', '').toUpperCase()}</span>
                     </div>
                   )}
                 </div>
@@ -529,12 +528,12 @@ const Home = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">
-              Enterprise
-              <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent"> Features</span>
+            <h2 className={`text-3xl sm:text-5xl font-bold text-white mb-6 ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('features.enterpriseSecurity').split(' ')[0]}
+              <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent"> {t('common.features', 'Features')}</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Built for professionals who demand excellence in gaming technology
+            <p className={`text-xl text-slate-400 max-w-3xl mx-auto ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('game.description')}
             </p>
           </div>
 
@@ -572,12 +571,12 @@ const Home = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">
-              Strategic
-              <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent"> Elements</span>
+            <h2 className={`text-3xl sm:text-5xl font-bold text-white mb-6 ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('game.tagline').split(' ')[0]}
+              <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent"> {t('game.elements.fire').split('')[0]}{t('game.elements.water').split('')[0]}{t('game.elements.plant').split('')[0]}</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Master the three fundamental strategies in competitive gameplay
+            <p className={`text-xl text-slate-400 max-w-3xl mx-auto ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('game.description')}
             </p>
           </div>
 
@@ -628,20 +627,20 @@ const Home = () => {
                       <Trophy className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold text-white mb-2">
-                        Player Dashboard
+                      <h2 className={`text-3xl font-bold text-white mb-2 ${isRTL() ? 'text-right' : 'text-left'}`}>
+                        {t('stats.title')}
                       </h2>
-                      <p className="text-slate-400">Your performance analytics</p>
+                      <p className={`text-slate-400 ${isRTL() ? 'text-right' : 'text-left'}`}>{t('stats.performance')}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
-                    { label: "VICTORIES", value: playerStats.wins, icon: <Trophy className="w-6 h-6" />, color: "text-emerald-400", gradient: "from-emerald-500 to-teal-500" },
-                    { label: "BATTLES", value: playerStats.gamesPlayed, icon: <Target className="w-6 h-6" />, color: "text-blue-400", gradient: "from-blue-500 to-indigo-500" },
-                    { label: "WIN RATE", value: `${playerStats.winRate || 0}%`, icon: <TrendingUp className="w-6 h-6" />, color: "text-purple-400", gradient: "from-purple-500 to-pink-500" },
-                    { label: "SCORE", value: playerStats.monthlyScore, icon: <Star className="w-6 h-6" />, color: "text-yellow-400", gradient: "from-yellow-500 to-orange-500" }
+                    { label: t('stats.wins').toUpperCase(), value: playerStats.wins, icon: <Trophy className="w-6 h-6" />, color: "text-emerald-400", gradient: "from-emerald-500 to-teal-500" },
+                    { label: t('stats.gamesPlayed').toUpperCase(), value: playerStats.gamesPlayed, icon: <Target className="w-6 h-6" />, color: "text-blue-400", gradient: "from-blue-500 to-indigo-500" },
+                    { label: t('stats.winRate').toUpperCase(), value: `${playerStats.winRate || 0}%`, icon: <TrendingUp className="w-6 h-6" />, color: "text-purple-400", gradient: "from-purple-500 to-pink-500" },
+                    { label: t('stats.monthlyScore').toUpperCase(), value: playerStats.monthlyScore, icon: <Star className="w-6 h-6" />, color: "text-yellow-400", gradient: "from-yellow-500 to-orange-500" }
                   ].map((stat, index) => (
                     <div key={index} className="text-center p-6 bg-slate-800/40 rounded-2xl backdrop-blur-lg border border-slate-700/30 hover:border-slate-600/50 transition-all duration-300 group">
                       <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${stat.gradient} mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
@@ -661,7 +660,7 @@ const Home = () => {
                     className="group inline-flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white rounded-2xl font-bold transition-all duration-300 hover:scale-105 border border-slate-600/50"
                   >
                     <BarChart3 className="w-5 h-5" />
-                    <span>View Full Analytics</span>
+                    <span>{t('navigation.statistics')}</span>
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -675,20 +674,20 @@ const Home = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">
-              Technology
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"> Stack</span>
+            <h2 className={`text-3xl sm:text-5xl font-bold text-white mb-6 ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('technology.bsc').split(' ')[0]}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"> {t('features.enterpriseSecurity').split(' ')[1]}</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Built on cutting-edge blockchain infrastructure
+            <p className={`text-xl text-slate-400 max-w-3xl mx-auto ${isRTL() ? 'text-right' : 'text-center'}`}>
+              {t('technology.bscDesc')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { 
-                name: "Binance Smart Chain", 
-                desc: "High-performance network", 
+                name: t('technology.bsc'), 
+                desc: t('technology.bscDesc'), 
                 icon: (
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor" fillOpacity="0.8"/>
@@ -703,8 +702,8 @@ const Home = () => {
                 color: "from-yellow-500 to-orange-500" 
               },
               { 
-                name: "Smart Contracts", 
-                desc: "Audited & verified", 
+                name: t('technology.smartContracts'), 
+                desc: t('technology.contractsDesc'), 
                 icon: (
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <rect x="6" y="4" width="20" height="24" rx="2" fill="currentColor" fillOpacity="0.8"/>
@@ -717,8 +716,8 @@ const Home = () => {
                 color: "from-purple-500 to-pink-500" 
               },
               { 
-                name: "Web3 Integration", 
-                desc: "Seamless wallet connection", 
+                name: t('technology.web3Integration'), 
+                desc: t('technology.web3Desc'), 
                 icon: (
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <rect x="4" y="10" width="24" height="14" rx="3" fill="currentColor" fillOpacity="0.8"/>
@@ -733,8 +732,8 @@ const Home = () => {
                 color: "from-emerald-500 to-teal-500" 
               },
               { 
-                name: "Real-time API", 
-                desc: "Live data synchronization", 
+                name: t('technology.realtimeApi'), 
+                desc: t('technology.apiDesc'), 
                 icon: (
                   <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
                     <rect x="2" y="6" width="28" height="20" rx="3" fill="currentColor" fillOpacity="0.8"/>
@@ -779,13 +778,12 @@ const Home = () => {
                   </div>
                   
                   <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-                    Ready to
-                    <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> Compete?</span>
+                    {t('modals.congratulations')}
+                    <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> {t('game.actions.startPlaying')}?</span>
                   </h2>
                   
-                  <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-                    Join the next generation of competitive gaming on BSC. Experience fair play, 
-                    instant BNB rewards, and professional-grade gaming infrastructure.
+                  <p className={`text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed ${isRTL() ? 'text-right' : 'text-center'}`}>
+                    {t('game.description')}
                   </p>
                 </div>
 
@@ -799,7 +797,7 @@ const Home = () => {
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                         <div className="relative flex items-center space-x-3">
                           <Play className="w-6 h-6" />
-                          <span>Start Playing</span>
+                          <span>{t('game.actions.startPlaying')}</span>
                         </div>
                       </Link>
                       <Link
@@ -808,7 +806,7 @@ const Home = () => {
                       >
                         <div className="flex items-center space-x-3">
                           <Crown className="w-6 h-6" />
-                          <span>View Rankings</span>
+                          <span>{t('navigation.ranking')}</span>
                         </div>
                       </Link>
                     </>
@@ -820,7 +818,7 @@ const Home = () => {
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                       <div className="relative flex items-center space-x-4">
                         <Shield className="w-8 h-8" />
-                        <span>Enter Platform</span>
+                        <span>{t('game.actions.enterPlatform')}</span>
                         <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
                       </div>
                     </button>

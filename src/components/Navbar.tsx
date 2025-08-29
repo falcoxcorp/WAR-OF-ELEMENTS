@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from '../hooks/useTranslation';
 import { useWeb3 } from '../contexts/Web3Context';
 import { Home, Wallet, AlertTriangle, RefreshCw, LogOut, Gamepad2, Menu, X, Shield, BarChart3, User, Settings, Crown, Activity, FileText } from 'lucide-react';
 
 const Navbar = () => {
   const { account, connectWallet, isConnected, balance, isCorrectNetwork, switchToCore, reconnectWallet, disconnectWallet, isOwner } = useWeb3();
+  const { t, formatAddress, isRTL } = useTranslation();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -18,7 +20,7 @@ const Navbar = () => {
   const navigationLinks = [
     { 
       path: '/', 
-      label: 'Home', 
+      label: t('navigation.home'), 
       icon: (props: any) => (
         <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
           <path d="M2 14V8L8 2L14 8V14H10V10H6V14H2Z" fill="currentColor" fillOpacity="0.9"/>
@@ -29,7 +31,7 @@ const Navbar = () => {
     },
     { 
       path: '/games', 
-      label: 'Games', 
+      label: t('navigation.games'), 
       icon: (props: any) => (
         <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
           <rect x="2" y="5" width="12" height="8" rx="2" fill="currentColor" fillOpacity="0.8"/>
@@ -42,7 +44,7 @@ const Navbar = () => {
     },
     { 
       path: '/statistics', 
-      label: 'Analytics', 
+      label: t('navigation.statistics'), 
       icon: (props: any) => (
         <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
           <rect x="2" y="10" width="3" height="4" fill="currentColor" fillOpacity="0.8"/>
@@ -56,7 +58,7 @@ const Navbar = () => {
     },
     { 
       path: '/stats', 
-      label: 'Profile', 
+      label: t('navigation.stats'), 
       icon: (props: any) => (
         <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
           <circle cx="8" cy="5" r="3" fill="currentColor" fillOpacity="0.8"/>
@@ -69,7 +71,7 @@ const Navbar = () => {
   ];
 
   if (isOwner) {
-    navigationLinks.push({ path: '/admin', label: 'Admin', icon: Crown });
+    navigationLinks.push({ path: '/admin', label: t('navigation.admin'), icon: Crown });
   }
 
   const closeMobileMenu = () => {
@@ -144,7 +146,7 @@ const Navbar = () => {
                   className="flex items-center space-x-2 px-4 py-2 bg-red-600/20 border border-red-500/50 text-red-400 rounded-xl text-sm font-semibold transition-all hover:bg-red-600/30 animate-pulse"
                 >
                   <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                  <span className="whitespace-nowrap">Switch Network</span>
+                  <span className="whitespace-nowrap">{t('wallet.switchNetwork')}</span>
                 </button>
               )}
 
@@ -153,14 +155,14 @@ const Navbar = () => {
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
                     <div className="text-white text-sm font-bold">
-                      {parseFloat(balance).toFixed(3)} BNB
+                      {parseFloat(balance).toFixed(3)} {t('currency.bnb')}
                     </div>
                     <div className="text-slate-400 text-xs flex items-center space-x-2">
-                      <span>{shortenAddress(account!)}</span>
+                      <span>{formatAddress(account!)}</span>
                       {isOwner && (
                         <div className="flex items-center space-x-1">
                           <Crown className="w-3 h-3 text-yellow-400" />
-                          <span className="text-yellow-400 text-xs font-bold">ADMIN</span>
+                          <span className="text-yellow-400 text-xs font-bold">{t('navigation.admin').toUpperCase()}</span>
                         </div>
                       )}
                     </div>
@@ -172,7 +174,7 @@ const Navbar = () => {
                       className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center transition-all"
                       title="Refresh Connection"
                     >
-                      <RefreshCw className="w-4 h-4 text-slate-400" />
+                      <span>{t('common.refresh')}</span>
                     </button>
                     
                     <button
@@ -180,7 +182,7 @@ const Navbar = () => {
                       className="w-8 h-8 bg-red-600/20 hover:bg-red-600/30 rounded-lg flex items-center justify-center transition-all"
                       title="Disconnect"
                     >
-                      <LogOut className="w-4 h-4 text-red-400" />
+                      <span>{t('wallet.disconnect')}</span>
                     </button>
                     
                     <div className={`w-10 h-10 bg-gradient-to-br ${isOwner ? 'from-yellow-500 to-orange-600' : 'from-blue-500 to-purple-600'} rounded-xl flex items-center justify-center relative shadow-lg`}>

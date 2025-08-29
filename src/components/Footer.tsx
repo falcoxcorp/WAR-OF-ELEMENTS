@@ -92,15 +92,14 @@ const Footer: React.FC = () => {
                 </div>
                 <div>
                   <span className="font-black text-2xl lg:text-3xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    OMDB ARENA
+                    {t('game.title')}
                   </span>
-                  <div className="text-sm text-slate-500 font-medium">Professional Gaming Platform</div>
+                  <div className="text-sm text-slate-500 font-medium">{t('game.subtitle')}</div>
                 </div>
               </Link>
               
-              <p className="text-slate-300 mb-6 leading-relaxed text-lg max-w-md">
-                The premier blockchain gaming platform delivering enterprise-grade security, 
-                competitive gameplay, and transparent rewards on Core Blockchain.
+              <p className={`text-slate-300 mb-6 leading-relaxed text-lg max-w-md ${isRTL() ? 'text-right' : 'text-left'}`}>
+                {t('game.description')}
               </p>
 
               {/* Platform Features */}
@@ -115,18 +114,23 @@ const Footer: React.FC = () => {
 
               {/* Company Links */}
               <div>
-                <h4 className="text-lg font-bold mb-4 text-white">OMDB Company</h4>
+                <h4 className={`text-lg font-bold mb-4 text-white ${isRTL() ? 'text-right' : 'text-left'}`}>{t('common.about')} OMDB</h4>
                 <div className="flex space-x-4">
                   <a
                     href="https://omdb.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative overflow-hidden flex items-center justify-center w-12 h-12 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-blue-600 hover:to-purple-600 rounded-xl transition-all duration-300 hover:scale-110 shadow-lg"
-                    title="Visit OMDB Website"
+                    title={t('common.about') + ' OMDB'}
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                     <Globe className="w-6 h-6 text-slate-400 group-hover:text-white transition-colors relative z-10" />
                   </a>
+                  
+                  {/* Language Selector in Footer */}
+                  <div className="ml-4">
+                    <LanguageSelector variant="footer" size="sm" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -136,9 +140,9 @@ const Footer: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Platform */}
                 <div>
-                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                  <h4 className={`text-lg font-bold mb-4 text-white flex items-center space-x-2 ${isRTL() ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <Gamepad2 className="w-5 h-5 text-blue-400" />
-                    <span>Platform</span>
+                    <span>{t('navigation.games')}</span>
                   </h4>
                   <ul className="space-y-3">
                     {footerSections.platform.map((link, index) => (
@@ -151,9 +155,9 @@ const Footer: React.FC = () => {
 
                 {/* Resources */}
                 <div>
-                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                  <h4 className={`text-lg font-bold mb-4 text-white flex items-center space-x-2 ${isRTL() ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <Book className="w-5 h-5 text-emerald-400" />
-                    <span>Resources</span>
+                    <span>{t('documentation.apiReference')}</span>
                   </h4>
                   <ul className="space-y-3">
                     {footerSections.resources.map((link, index) => (
@@ -166,9 +170,9 @@ const Footer: React.FC = () => {
 
                 {/* Company */}
                 <div>
-                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                  <h4 className={`text-lg font-bold mb-4 text-white flex items-center space-x-2 ${isRTL() ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <Globe className="w-5 h-5 text-purple-400" />
-                    <span>Company</span>
+                    <span>{t('common.about')}</span>
                   </h4>
                   <ul className="space-y-3">
                     {footerSections.company.map((link, index) => (
@@ -181,9 +185,9 @@ const Footer: React.FC = () => {
 
                 {/* Legal */}
                 <div>
-                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                  <h4 className={`text-lg font-bold mb-4 text-white flex items-center space-x-2 ${isRTL() ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <Shield className="w-5 h-5 text-orange-400" />
-                    <span>Legal</span>
+                    <span>{t('common.support')}</span>
                   </h4>
                   <ul className="space-y-3">
                     {footerSections.legal.map((link, index) => (
@@ -205,8 +209,8 @@ const Footer: React.FC = () => {
                   <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white">Enterprise Security</h4>
-                  <p className="text-slate-400">Audited smart contracts and secure infrastructure</p>
+                  <h4 className={`text-lg font-bold text-white ${isRTL() ? 'text-right' : 'text-left'}`}>{t('features.enterpriseSecurity')}</h4>
+                  <p className={`text-slate-400 ${isRTL() ? 'text-right' : 'text-left'}`}>{t('features.securityDesc')}</p>
                 </div>
               </div>
               <Link
@@ -216,7 +220,7 @@ const Footer: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center space-x-2">
                   <Shield className="w-4 h-4" />
-                  <span>View Security Report</span>
+                  <span>{t('documentation.securityAudit')}</span>
                 </div>
               </Link>
             </div>
@@ -229,16 +233,16 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
               <p className="text-slate-400">
-                © {currentYear} OMDB Arena. All rights reserved.
+                © {currentYear} {t('game.title')}. All rights reserved.
               </p>
               <div className="flex items-center space-x-2 text-slate-400">
-                <span>Powered by</span>
+                <span>{t('technology.bscDesc')}</span>
                 <img 
                   src="https://cryptologos.cc/logos/bnb-bnb-logo.png" 
                   alt="BNB" 
                   className="w-4 h-4 rounded-full"
                 />
-                <span className="font-semibold">Binance Smart Chain</span>
+                <span className="font-semibold">{t('technology.bsc')}</span>
               </div>
             </div>
 
@@ -246,7 +250,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 bg-slate-900/50 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-800/50">
                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span className="text-sm text-slate-300">Platform Online</span>
+                <span className="text-sm text-slate-300">{t('wallet.connected')}</span>
               </div>
               
               <div className="flex items-center space-x-2 bg-slate-900/50 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-800/50">
