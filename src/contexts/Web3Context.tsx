@@ -29,16 +29,25 @@ const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe'; // BSC de
 const BSC_CHAIN_ID = 56; // BSC Mainnet
 const BSC_TESTNET_CHAIN_ID = 97; // BSC Testnet
 
+// Multiple BSC RPC endpoints for redundancy
+const BSC_RPC_ENDPOINTS = [
+  'https://bsc-dataseed1.binance.org',
+  'https://bsc-dataseed2.binance.org',
+  'https://bsc-dataseed3.binance.org',
+  'https://bsc-dataseed4.binance.org',
+  'https://rpc.ankr.com/bsc'
+];
+
 // Updated BSC Network Configuration
 const BSC_NETWORK_CONFIG = {
   chainId: '0x38', // 56 in hex (BSC Mainnet)
-  chainName: 'Binance Smart Chain Mainnet',
+  chainName: 'Smart Chain',
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',
     decimals: 18,
   },
-  rpcUrls: ['https://bsc-dataseed1.binance.org'],
+  rpcUrls: BSC_RPC_ENDPOINTS,
   blockExplorerUrls: ['https://bscscan.com'],
 };
 
@@ -1193,18 +1202,27 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsLoading(true);
       setError(null);
       
+      console.log('🔗 Setting up Web3 connection...');
+      console.log('📍 Account:', accounts[0]);
+      console.log('🏗️ Contract Address:', CONTRACT_ADDRESS);
+      
       const networkId = await retryRequest(async () => {
         return web3Instance.eth.net.getId();
       }, 5, 3000, 'network ID fetch'); // Increased from 2 to 5 retries with longer delay
+      
+      console.log('🌐 Detected Network ID:', Number(networkId));
+      console.log('✅ Expected BSC Chain ID:', BSC_CHAIN_ID);
       
       setWeb3(web3Instance);
       setAccount(accounts[0]);
       setNetworkId(Number(networkId));
       
       const isBSC = Number(networkId) === BSC_CHAIN_ID || Number(networkId) === BSC_TESTNET_CHAIN_ID;
+      console.log('🔍 Is BSC Network?', isBSC);
       setIsCorrectNetwork(isBSC);
       
       if (isBSC) {
+        console.log('🚀 Initializing BSC contract...');
         const contractInstance = new web3Instance.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
         setContract(contractInstance);
         setIsConnected(true);
@@ -1213,36 +1231,46 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         
         // Check if the connected account is the contract owner
         try {
+          console.log('👑 Checking contract owner...');
           const ownerAddress = await retryRequest(async () => {
             return contractInstance.methods.owner().call();
-          }, 3, 1500, 'contract owner check');
+          }, 5, 2000, 'contract owner check'); // Increased retries and delay
+          
+          console.log('🏛️ Contract Owner:', ownerAddress);
+          console.log('👤 Current Account:', accounts[0]);
           
           const isContractOwner = accounts[0].toLowerCase() === ownerAddress.toLowerCase();
           setIsOwner(isContractOwner);
           
           if (isContractOwner) {
-            console.log('🔑 Admin access granted - Contract owner detected on BSC');
+            console.log('🔑 Admin access granted - Contract owner detected');
+            toast.success('¡Acceso de administrador concedido!');
+          } else {
+            console.log('👤 Regular user access');
           }
         } catch (ownerError) {
-          console.error('Error checking contract owner:', ownerError);
+          console.warn('⚠️ Could not verify contract owner (non-critical):', ownerError.message);
           setIsOwner(false);
+          // Don't throw error here - owner check is not critical for basic functionality
         }
         
         // Update balance in background
         updateBalance(web3Instance, accounts[0]).catch(console.error);
         
-        toast.success('¡Conectado a Binance Smart Chain exitosamente!');
+        console.log('✅ BSC connection successful');
+        toast.success('¡Conectado a BSC exitosamente!');
       } else {
+        console.log('❌ Wrong network detected:', Number(networkId));
         setContract(null);
         setIsConnected(false);
         setConnectionState('error');
         setBalance('0');
         setIsOwner(false);
         setError('Wrong network');
-        toast.error('Por favor cambia a Binance Smart Chain (Chain ID: 56)');
+        toast.error(`Red incorrecta detectada (${Number(networkId)}). Por favor cambia a BSC (Chain ID: 56)`);
       }
     } catch (error: any) {
-      console.error('Error setting up Web3 connection:', error);
+      console.error('❌ Error setting up Web3 connection:', error);
       setConnectionState('error');
       setError(error.message || 'Connection setup failed');
       setIsOwner(false);
@@ -1258,7 +1286,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const now = Date.now();
     if (isConnecting || (now - lastConnectionAttempt) < CONNECTION_COOLDOWN) {
       const remainingTime = Math.ceil((CONNECTION_COOLDOWN - (now - lastConnectionAttempt)) / 1000);
-      toast.error(`Please wait ${remainingTime} seconds before trying again.`);
+      toast.error(`Espera ${remainingTime} segundos antes de intentar de nuevo.`);
       return;
     }
 
@@ -1267,7 +1295,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const extendedCooldown = CIRCUIT_BREAKER_COOLDOWN * 2;
       if ((now - lastConnectionAttempt) < extendedCooldown) {
         const remainingTime = Math.ceil((extendedCooldown - (now - lastConnectionAttempt)) / 1000);
-        toast.error(`MetaMask is experiencing issues. Please wait ${remainingTime} seconds before trying again.`, {
+        toast.error(`MetaMask está experimentando problemas. Espera ${remainingTime} segundos antes de intentar de nuevo.`, {
           duration: 5000
         });
         return;
@@ -1291,9 +1319,21 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return;
       }
 
-      console.log('🔗 Attempting to connect to BSC network...');
+      console.log('🔗 Intentando conectar a la red BSC...');
       console.log('📍 Contract Address:', CONTRACT_ADDRESS);
-      console.log('🌐 Expected Chain ID:', BSC_CHAIN_ID);
+      console.log('🌐 Chain ID esperado:', BSC_CHAIN_ID);
+      
+      // Check current network before attempting connection
+      const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const currentNetworkId = parseInt(currentChainId, 16);
+      console.log('🔍 Red actual detectada:', currentNetworkId);
+      
+      if (currentNetworkId !== BSC_CHAIN_ID && currentNetworkId !== BSC_TESTNET_CHAIN_ID) {
+        console.log('⚠️ Red incorrecta detectada, solicitando cambio a BSC...');
+        toast.info('Detectada red incorrecta. Cambiando a BSC automáticamente...');
+        await switchToBSC();
+        return; // Exit here, the network change will trigger reconnection
+      }
 
       // Create Web3 instance
       const web3Instance = new Web3(window.ethereum);
@@ -1309,11 +1349,12 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         throw new Error('No accounts found. Please unlock MetaMask and try again.');
       }
 
-      console.log('✅ Accounts found:', accounts.length);
+      console.log('✅ Cuentas encontradas:', accounts.length);
+      console.log('👤 Cuenta principal:', accounts[0]);
       await setupWeb3Connection(web3Instance, accounts);
       
     } catch (error: any) {
-      console.error('Error connecting wallet:', error);
+      console.error('❌ Error conectando billetera:', error);
       setConnectionState('error');
       
       const errorMessage = error.message || error.toString() || '';
