@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AnimatedAppIcon from '../components/AnimatedAppIcon';
 import { useWeb3 } from '../contexts/Web3Context';
 import { useGame } from '../contexts/GameContext';
 import { Shield, Zap, Users, Trophy, Target, Crown, Star, ChevronRight, Play, TrendingUp, Award, Globe, Lock, Eye, ArrowRight, Gamepad2, BarChart3, Swords, Gem, Hexagon, Wind, Mountain, Sun, Moon, Activity, Layers, Code, Database } from 'lucide-react';
@@ -219,12 +220,10 @@ const Home = () => {
               <div className="flex items-center justify-center space-x-6 mb-12">
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-                  <AnimatedAppIcon
-                    size="xl"
-                    variant="gaming"
-                    trigger="auto"
-                    intensity="high"
-                    className="relative shadow-2xl"
+                  <img 
+                    src="https://photos.pinksale.finance/file/pinksale-logo-upload/1756454447056-1fba9df7cd0639fc2d1b4bfcbc37a6bb.png"
+                    alt="OMDB Arena"
+                    className="relative w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-3xl shadow-2xl group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
                 <div className="text-left">
