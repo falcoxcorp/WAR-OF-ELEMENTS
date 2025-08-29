@@ -68,6 +68,14 @@ export const getAllStoredSecrets = (): GameSecret[] => {
 export const clearExpiredSecrets = (): void => {
   try {
     const secrets = getStoredSecrets();
+    
+    // Ensure secrets is an array before calling filter
+    if (!Array.isArray(secrets)) {
+      console.warn('Invalid secrets data found in localStorage, clearing...');
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    
     const validSecrets = secrets.filter(s => {
       const daysSinceCreated = (Date.now() - s.createdAt) / (1000 * 60 * 60 * 24);
       return daysSinceCreated < EXPIRY_DAYS;
@@ -75,6 +83,8 @@ export const clearExpiredSecrets = (): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(validSecrets));
   } catch (error) {
     console.error('Error clearing expired secrets:', error);
+    // Clear corrupted data on error
+    localStorage.removeItem(STORAGE_KEY);
   }
 };
 
