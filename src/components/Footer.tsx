@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../hooks/useTranslation';
+import LanguageSelector from './LanguageSelector';
 import { Shield, Zap, Users, Trophy, Gamepad2, Globe, Book, ExternalLink, Code, Database, Activity, Award, Target, Crown } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const { t, isRTL } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   const footerSections = {
