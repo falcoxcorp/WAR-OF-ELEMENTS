@@ -4,7 +4,7 @@ import { Shield, FileCheck, ExternalLink, CheckCircle, AlertTriangle, Info, Down
 const Audit = () => {
   // Real contract data - ready for actual audit information
   const auditData = {
-    contractAddress: '0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697',
+    contractAddress: '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe',
     auditFirm: 'Pending Professional Audit',
     auditDate: 'Q1 2025 (Scheduled)',
     auditScore: 'Pending Completion',
