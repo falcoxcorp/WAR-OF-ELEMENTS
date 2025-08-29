@@ -99,7 +99,7 @@ const AIAgent: React.FC = () => {
 
     BLOCKCHAIN FEATURES:
     - Built on Core Blockchain (Chain ID: 1116)
-    - Smart contract address: 0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697
+    - Smart contract address: 0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe
     - Fully decentralized and transparent
     - All transactions verifiable on Core blockchain explorer
 
