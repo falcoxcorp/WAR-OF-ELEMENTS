@@ -25,7 +25,7 @@ interface Web3ContextType {
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
-const CONTRACT_ADDRESS = '0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697'; // BSC deployed contract address
+const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe'; // BSC deployed contract address
 const BSC_CHAIN_ID = 56; // BSC Mainnet
 const BSC_TESTNET_CHAIN_ID = 97; // BSC Testnet
 const BSC_NETWORK_CONFIG = {
