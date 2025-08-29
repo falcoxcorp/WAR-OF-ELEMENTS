@@ -593,3 +593,4 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
     </>
   );
 };
+export default GameCard;
