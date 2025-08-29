@@ -194,7 +194,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Sophisticated background effects */}
-        <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
           
           {parseFloat(web3?.utils.fromWei(game.betAmount, 'ether') || '0') >= 10 && (
@@ -202,136 +202,134 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
           )}
         </div>
 
-        {isMyGame && (
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/5 to-blue-500/10"></div>
-        )}
-
-        <div className="relative p-6 backdrop-blur-sm">
+        <div className={`relative p-4 sm:p-6 backdrop-blur-sm ${isMyGame ? 'bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-blue-500/5' : ''}`}>
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div className="flex items-center space-x-3">
+          <div className="flex flex-col gap-3 mb-4 sm:mb-6">
+            <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
               <h3 className="text-lg font-bold text-white">
                 Game #{game.id}
               </h3>
               
-              <div className="flex flex-wrap items-center gap-2">
-                {isMyGame && (
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">
-                    Your Game
-                  </span>
-                )}
-                
-                {hasSecret && canReveal && (
-                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold animate-pulse whitespace-nowrap">
-                    Auto-Reveal Ready
-                  </span>
-                )}
-                
-                <span className={`px-2 py-1 ${betTier.gradient}/20 ${betTier.color} rounded-full text-xs font-semibold whitespace-nowrap`}>
-                  {betTier.tier} Stakes
+              <div className="text-right flex-shrink-0">
+                <span className={`inline-flex items-center space-x-2 px-3 py-2 bg-gradient-to-r ${getStatusColor(game.status)} text-white rounded-xl font-semibold text-sm shadow-lg`}>
+                  {getStatusIcon(game.status)}
+                  <span>{getStatusText(game.status)}</span>
+                </span>
+                <p className="text-slate-500 text-xs mt-1 whitespace-nowrap">{getTimeAgo(game.createdAt)} ago</p>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap items-center gap-2">
+              {isMyGame && (
+                <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">
+                  Your Game
+                </span>
+              )}
+              
+              {hasSecret && canReveal && (
+                <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold animate-pulse whitespace-nowrap">
+                  Auto-Reveal Ready
+                </span>
+              )}
+              
+              <span className={`px-2 py-1 bg-gradient-to-r ${betTier.gradient}/20 ${betTier.color} rounded-full text-xs font-semibold whitespace-nowrap`}>
+                {betTier.tier} Stakes
+              </span>
+            </div>
+          </div>
+
+          {/* Game Details - Improved Mobile Layout */}
+          <div className="space-y-3 mb-4 sm:mb-6">
+            {/* Creator */}
+            <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
+              <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
+                <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
+                  <User className="w-4 h-4" />
+                  <span>Creator</span>
+                </span>
+                <span className="text-white font-semibold text-right break-all">
+                  {game.creator === account ? (
+                    <span className="text-blue-400">You</span>
+                  ) : (
+                    <span className="font-mono text-sm">{formatAddress(game.creator)}</span>
+                  )}
                 </span>
               </div>
             </div>
             
-            <div className="text-right flex-shrink-0">
-              <span className={`px-3 py-2 bg-gradient-to-r ${getStatusColor(game.status)} text-white rounded-xl font-semibold text-sm flex items-center space-x-2 shadow-lg`}>
-                {getStatusIcon(game.status)}
-                <span>{getStatusText(game.status)}</span>
-              </span>
-              <p className="text-slate-500 text-xs mt-1 whitespace-nowrap">{getTimeAgo(game.createdAt)} ago</p>
-            </div>
-          </div>
-
-          {/* Game Details */}
-          <div className="space-y-4 mb-6">
-            <div className="space-y-3">
+            {/* Opponent */}
+            {game.opponent !== '0x0000000000000000000000000000000000000000' && (
               <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400 text-sm flex items-center space-x-2">
-                    <User className="w-4 h-4" />
-                    <span>Creator</span>
+                <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
+                  <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
+                    <Target className="w-4 h-4" />
+                    <span>Opponent</span>
                   </span>
-                  <span className="text-white font-semibold text-right ml-2 break-all">
-                    {game.creator === account ? (
-                      <span className="text-blue-400">You</span>
+                  <span className="text-white font-semibold text-right break-all">
+                    {game.opponent === account ? (
+                      <span className="text-purple-400">You</span>
                     ) : (
-                      <span className="font-mono text-sm">{formatAddress(game.creator)}</span>
+                      <span className="font-mono text-sm">{formatAddress(game.opponent)}</span>
                     )}
                   </span>
                 </div>
               </div>
-              
-              {game.opponent !== '0x0000000000000000000000000000000000000000' && (
-                <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400 text-sm flex items-center space-x-2">
-                      <Target className="w-4 h-4" />
-                      <span>Opponent</span>
-                    </span>
-                    <span className="text-white font-semibold text-right ml-2 break-all">
-                      {game.opponent === account ? (
-                        <span className="text-purple-400">You</span>
-                      ) : (
-                        <span className="font-mono text-sm">{formatAddress(game.opponent)}</span>
-                      )}
-                    </span>
-                  </div>
-                </div>
-              )}
-              
-              <div className={`p-3 bg-gradient-to-r ${betTier.gradient}/10 border border-slate-700/30 rounded-xl min-h-[60px] flex items-center`}>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400 text-sm flex items-center space-x-2">
-                    <Coins className="w-4 h-4" />
-                    <span>Bet Amount</span>
+            )}
+            
+            {/* Bet Amount */}
+            <div className={`p-3 bg-gradient-to-r ${betTier.gradient}/10 border border-slate-700/30 rounded-xl min-h-[60px] flex items-center`}>
+              <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
+                <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
+                  <Coins className="w-4 h-4" />
+                  <span>Bet Amount</span>
+                </span>
+                <div className="text-right">
+                  <span className="text-white font-bold text-lg">
+                    {parseFloat(web3?.utils.fromWei(game.betAmount, 'ether') || '0').toFixed(6)}
                   </span>
-                  <div className="text-right ml-2">
-                    <span className="text-white font-bold text-lg">
-                      {parseFloat(web3?.utils.fromWei(game.betAmount, 'ether') || '0').toFixed(4)}
-                    </span>
-                    <span className={`${betTier.color} ml-1 text-sm font-semibold`}>BNB</span>
-                  </div>
+                  <span className={`${betTier.color} ml-1 text-sm font-semibold`}>BNB</span>
                 </div>
               </div>
-              
-              {game.status === 3 && (
-                <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl min-h-[60px]">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span className="text-yellow-400 text-sm flex items-center space-x-2">
-                      <Clock className="w-4 h-4" />
-                      <span>Deadline</span>
-                    </span>
-                    <span className="text-white text-xs font-mono break-all">
-                      {new Date(game.revealDeadline * 1000).toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
+            
+            {/* Reveal Deadline */}
+            {game.status === 3 && (
+              <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl min-h-[60px]">
+                <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2">
+                  <span className="text-yellow-400 text-sm flex items-center space-x-2 flex-shrink-0">
+                    <Clock className="w-4 h-4" />
+                    <span>Deadline</span>
+                  </span>
+                  <span className="text-white text-xs font-mono break-all">
+                    {new Date(game.revealDeadline * 1000).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Winner Display */}
+          {/* Winner Display - Improved */}
           {game.winner !== '0x0000000000000000000000000000000000000000' && (
-            <div className="mb-6 p-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded-xl">
-              <div className="flex items-center justify-center space-x-3">
-                <Trophy className="w-6 h-6 text-yellow-400 animate-bounce" />
-                <div className="text-center">
+            <div className="mb-4 sm:mb-6 p-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded-xl">
+              <div className="flex flex-col xs:flex-row xs:items-center justify-center space-y-2 xs:space-y-0 xs:space-x-3">
+                <Trophy className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" />
+                <div className="text-center xs:text-left">
                   <p className="text-yellow-400 font-semibold text-sm">Game Winner</p>
                   <p className="text-lg font-bold text-white">
                     {game.winner === account ? '🎉 You Won!' : `${formatAddress(game.winner)} Won!`}
                   </p>
                 </div>
-                <Award className="w-6 h-6 text-yellow-400 animate-bounce" style={{ animationDelay: '0.5s' }} />
+                <Award className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" style={{ animationDelay: '0.5s' }} />
               </div>
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="space-y-3">
+          {/* Action Buttons - Improved Mobile Layout */}
+          <div className="space-y-2 sm:space-y-3">
             {canJoin && (
               <button
                 onClick={() => setShowJoinModal(true)}
-                className="w-full group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+                className="w-full group relative overflow-hidden px-4 sm:px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -345,7 +343,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             {canCancel && (
               <button
                 onClick={() => cancelGame(game.id)}
-                className="w-full group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+                className="w-full group relative overflow-hidden px-4 sm:px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -359,7 +357,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
               <button
                 onClick={handleAutoReveal}
                 disabled={isAutoRevealing}
-                className="w-full group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-600 disabled:to-slate-700 text-white rounded-xl font-semibold transition-all hover:scale-105 disabled:cursor-not-allowed shadow-lg"
+                className="w-full group relative overflow-hidden px-4 sm:px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-slate-600 disabled:to-slate-700 text-white rounded-xl font-semibold transition-all hover:scale-105 disabled:cursor-not-allowed shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -382,7 +380,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             {canReveal && !hasSecret && (
               <Link
                 to={`/game/${game.id}`}
-                className="w-full group relative overflow-hidden block px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+                className="w-full group relative overflow-hidden block px-4 sm:px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -395,7 +393,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             {canClaim && (
               <button
                 onClick={() => claimTimeout(game.id)}
-                className="w-full group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+                className="w-full group relative overflow-hidden px-4 sm:px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
                 <div className="relative flex items-center justify-center space-x-2">
@@ -408,7 +406,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             
             <Link
               to={`/game/${game.id}`}
-              className="w-full group px-6 py-3 bg-slate-800/50 hover:bg-slate-700/50 text-slate-400 hover:text-white rounded-xl font-semibold transition-all hover:scale-105 border border-slate-700/50 hover:border-slate-600/50 block text-center"
+              className="w-full group px-4 sm:px-6 py-3 bg-slate-800/50 hover:bg-slate-700/50 text-slate-400 hover:text-white rounded-xl font-semibold transition-all hover:scale-105 border border-slate-700/50 hover:border-slate-600/50 block text-center"
             >
               <div className="flex items-center justify-center space-x-2">
                 <Eye className="w-5 h-5" />
@@ -558,46 +556,4 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     💀 DEFEAT 💀
                   </h2>
                   <p className="text-xl text-red-300 mb-6">
-                    A worthy opponent! Analyze and come back stronger!
-                  </p>
-                  <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-6 mb-6">
-                    <div className="flex items-center justify-center space-x-3">
-                      <Coins className="w-6 h-6 text-red-400" />
-                      <span className="text-red-300 font-semibold">Amount Lost:</span>
-                      <span className="text-white font-bold text-xl">
-                        {parseFloat(web3?.utils.fromWei(game.betAmount, 'ether') || '0').toFixed(4)} CORE
-                      </span>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              <div className="space-y-3">
-                <button
-                  onClick={() => setShowResultModal(false)}
-                  className={`w-full px-8 py-4 rounded-xl font-bold text-white transition-all hover:scale-105 text-lg ${
-                    didWin 
-                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700' 
-                      : 'bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700'
-                  }`}
-                >
-                  {didWin ? '🎊 Excellent!' : '⚔️ Battle Again!'}
-                </button>
-                
-                <Link
-                  to="/games"
-                  onClick={() => setShowResultModal(false)}
-                  className="block w-full px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 text-slate-400 hover:text-white rounded-xl font-semibold transition-all border border-slate-700/50 hover:border-slate-600/50 text-center"
-                >
-                  Return to Arena
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default GameCard;
+                    
