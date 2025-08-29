@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
+import LanguageSelector from './LanguageSelector';
 import { useWeb3 } from '../contexts/Web3Context';
 import { Home, Wallet, AlertTriangle, RefreshCw, LogOut, Gamepad2, Menu, X, Shield, BarChart3, User, Settings, Crown, Activity, FileText } from 'lucide-react';
 
