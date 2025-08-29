@@ -14,6 +14,7 @@ const Footer: React.FC = () => {
     ],
     resources: [
       { name: 'Documentation', href: '/game-docs', internal: true },
+      { name: 'Technical Guide', href: '/tech-docs', internal: true },
       { name: 'API Reference', href: '/api-docs', internal: true },
       { name: 'Security Audit', href: '/audit', internal: true },
       { name: 'Core Blockchain', href: 'https://coredao.org', external: true }

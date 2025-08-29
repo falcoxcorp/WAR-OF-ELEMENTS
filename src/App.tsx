@@ -17,6 +17,7 @@ import AdminPanel from './components/AdminPanel';
 import Audit from './pages/Audit';
 import ApiDocumentation from './components/ApiDocumentation';
 import GameDocumentation from './pages/GameDocumentation';
+import TechnicalDocumentation from './pages/TechnicalDocumentation';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/audit" element={<Audit />} />
                 <Route path="/api-docs" element={<ApiDocumentation />} />
                 <Route path="/game-docs" element={<GameDocumentation />} />
+                <Route path="/tech-docs" element={<TechnicalDocumentation />} />
               </Routes>
             </main>
             <Footer />

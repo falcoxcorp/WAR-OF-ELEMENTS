@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useWeb3 } from '../contexts/Web3Context';
-import { Home, Wallet, AlertTriangle, RefreshCw, LogOut, Gamepad2, Menu, X, Shield, BarChart3, User, Settings, Crown, Activity } from 'lucide-react';
+import { Home, Wallet, AlertTriangle, RefreshCw, LogOut, Gamepad2, Menu, X, Shield, BarChart3, User, Settings, Crown, Activity, FileText } from 'lucide-react';
 
 const Navbar = () => {
   const { account, connectWallet, isConnected, balance, isCorrectNetwork, switchToCore, reconnectWallet, disconnectWallet, isOwner } = useWeb3();
@@ -120,6 +120,19 @@ const Navbar = () => {
                   )}
                 </Link>
               ))}
+              
+              {/* Technical Documentation Link */}
+              <Link
+                to="/tech-docs"
+                className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                  isActive('/tech-docs')
+                    ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/25'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                }`}
+              >
+                <FileText className="w-5 h-5 flex-shrink-0" />
+                <span className="whitespace-nowrap">Tech Docs</span>
+              </Link>
             </div>
 
             {/* Desktop Wallet Section */}
