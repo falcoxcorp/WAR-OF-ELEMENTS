@@ -90,22 +90,11 @@ const PlayerStats = () => {
               score={playerStats.monthlyScore} 
               size="sm" 
               showProgress={false}
-              animated={true}
-            />
-            <div className="text-center">
-              <h1 className="text-lg font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-1">
-                Player Statistics
-              </h1>
-              <div className="flex items-center justify-center space-x-2 text-xs">
-                <span className={`${performance.color} font-bold flex items-center space-x-2`}>
-                  {performance.icon}
-                  <span>{performance.rating} Player</span>
-                </span>
-                    <span className="text-orange-400 font-bold flex items-center space-x-2">
-                      <Zap className="w-3 h-3" />
-                      <span>{winStreak} Win Streak</span>
-                    </span>
-                  </>
+                {winStreak >= 3 && (
+                  <span className="text-orange-400 font-bold flex items-center space-x-2">
+                    <Zap className="w-3 h-3" />
+                    <span>{winStreak} Win Streak</span>
+                  </span>
                 )}
               </div>
             </div>
