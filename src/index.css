@@ -647,6 +647,23 @@ html, body {
   .heading-premium {
     font-size: 2rem;
   }
+  
+  /* Game Card Mobile Optimizations */
+  .game-card-mobile {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .game-card-mobile .game-details {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .game-card-mobile .address-display {
+    font-size: 0.75rem;
+    word-break: break-all;
+    max-width: 120px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -661,6 +678,39 @@ html, body {
   .btn-luxury {
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
+  }
+  
+  /* Extra Small Mobile Fixes */
+  .game-card-xs {
+    padding: 0.75rem;
+    margin: 0.25rem;
+  }
+  
+  .game-card-xs .game-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .game-card-xs .status-badge {
+    align-self: flex-end;
+  }
+  
+  .game-card-xs .bet-amount {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  
+  .game-card-xs .address-text {
+    font-size: 0.6875rem;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .game-card-xs .timestamp {
+    font-size: 0.625rem;
+    margin-top: 0.25rem;
   }
 }
 

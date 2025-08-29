@@ -208,13 +208,13 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
 
         <div className="relative p-6 backdrop-blur-sm">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div className="flex items-center space-x-3">
               <h3 className="text-lg font-bold text-white">
                 Game #{game.id}
               </h3>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {isMyGame && (
                   <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">
                     Your Game
@@ -222,88 +222,86 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
                 )}
                 
                 {hasSecret && canReveal && (
-                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold animate-pulse">
+                  <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold animate-pulse whitespace-nowrap">
                     Auto-Reveal Ready
                   </span>
                 )}
                 
-                <span className={`px-2 py-1 ${betTier.gradient}/20 ${betTier.color} rounded-full text-xs font-semibold`}>
+                <span className={`px-2 py-1 ${betTier.gradient}/20 ${betTier.color} rounded-full text-xs font-semibold whitespace-nowrap`}>
                   {betTier.tier} Stakes
                 </span>
               </div>
             </div>
             
-            <div className="text-right">
+            <div className="text-right flex-shrink-0">
               <span className={`px-3 py-2 bg-gradient-to-r ${getStatusColor(game.status)} text-white rounded-xl font-semibold text-sm flex items-center space-x-2 shadow-lg`}>
                 {getStatusIcon(game.status)}
                 <span>{getStatusText(game.status)}</span>
               </span>
-              <p className="text-slate-500 text-xs mt-1">{getTimeAgo(game.createdAt)} ago</p>
+              <p className="text-slate-500 text-xs mt-1 whitespace-nowrap">{getTimeAgo(game.createdAt)} ago</p>
             </div>
           </div>
 
           {/* Game Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="space-y-4 mb-6">
             <div className="space-y-3">
-              <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30">
+              <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400 text-sm flex items-center space-x-2">
                     <User className="w-4 h-4" />
                     <span>Creator</span>
                   </span>
-                  <span className="text-white font-semibold">
+                  <span className="text-white font-semibold text-right ml-2 break-all">
                     {game.creator === account ? (
                       <span className="text-blue-400">You</span>
                     ) : (
-                      formatAddress(game.creator)
+                      <span className="font-mono text-sm">{formatAddress(game.creator)}</span>
                     )}
                   </span>
                 </div>
               </div>
               
               {game.opponent !== '0x0000000000000000000000000000000000000000' && (
-                <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30">
+                <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-400 text-sm flex items-center space-x-2">
                       <Target className="w-4 h-4" />
                       <span>Opponent</span>
                     </span>
-                    <span className="text-white font-semibold">
+                    <span className="text-white font-semibold text-right ml-2 break-all">
                       {game.opponent === account ? (
                         <span className="text-purple-400">You</span>
                       ) : (
-                        formatAddress(game.opponent)
+                        <span className="font-mono text-sm">{formatAddress(game.opponent)}</span>
                       )}
                     </span>
                   </div>
                 </div>
               )}
-            </div>
-            
-            <div className="space-y-3">
-              <div className={`p-3 bg-gradient-to-r ${betTier.gradient}/10 border border-slate-700/30 rounded-xl`}>
+              
+              <div className={`p-3 bg-gradient-to-r ${betTier.gradient}/10 border border-slate-700/30 rounded-xl min-h-[60px] flex items-center`}>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400 text-sm flex items-center space-x-2">
                     <Coins className="w-4 h-4" />
                     <span>Bet Amount</span>
                   </span>
-                  <div className="text-right">
-                    <span className="text-white font-bold">
+                  <div className="text-right ml-2">
+                    <span className="text-white font-bold text-lg">
                       {parseFloat(web3?.utils.fromWei(game.betAmount, 'ether') || '0').toFixed(4)}
                     </span>
-                    <span className={`${betTier.color} ml-1 text-sm`}>CORE</span>
+                    <span className={`${betTier.color} ml-1 text-sm font-semibold`}>BNB</span>
                   </div>
                 </div>
               </div>
               
               {game.status === 3 && (
-                <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
-                  <div className="flex items-center justify-between">
+                <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl min-h-[60px]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-yellow-400 text-sm flex items-center space-x-2">
                       <Clock className="w-4 h-4" />
                       <span>Deadline</span>
                     </span>
-                    <span className="text-white text-xs">
+                    <span className="text-white text-xs font-mono break-all">
                       {new Date(game.revealDeadline * 1000).toLocaleString()}
                     </span>
                   </div>
