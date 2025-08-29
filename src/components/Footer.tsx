@@ -1,61 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Shield, Zap, Users, Trophy, Gamepad2, MessageCircle, Twitter, FileCheck, ExternalLink, Globe, Book } from 'lucide-react';
+import { Shield, Zap, Users, Trophy, Gamepad2, Globe, Book, ExternalLink, Code, Database, Activity, Award, Target, Crown } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
+  const footerSections = {
     platform: [
       { name: 'Games', href: '/games', internal: true },
-      { name: 'Ranking', href: '/ranking', internal: true },
+      { name: 'Rankings', href: '/ranking', internal: true },
       { name: 'Create Game', href: '/create', internal: true },
-      { name: 'Player Stats', href: '/stats', internal: true }
-    ],
-    community: [
-      { 
-        name: 'Telegram', 
-        href: 'https://t.me/Falco_X_CORP', 
-        external: true,
-        icon: MessageCircle
-      },
-      { 
-        name: 'Twitter', 
-        href: 'https://x.com/FalcoX_Corp/', 
-        external: true,
-        icon: Twitter
-      }
+      { name: 'Analytics', href: '/statistics', internal: true }
     ],
     resources: [
-      { name: 'Game Documentation', href: '/game-docs', internal: true },
-      { name: 'Core Blockchain', href: 'https://coredao.org', external: true },
-      { name: 'Block Explorer', href: 'https://scan.coredao.org', external: true },
-      { name: 'Security Audit', href: '/audit', internal: true }
+      { name: 'Documentation', href: '/game-docs', internal: true },
+      { name: 'API Reference', href: '/api-docs', internal: true },
+      { name: 'Security Audit', href: '/audit', internal: true },
+      { name: 'Core Blockchain', href: 'https://coredao.org', external: true }
+    ],
+    company: [
+      { name: 'About OMDB', href: 'https://omdb.com', external: true },
+      { name: 'Contact', href: 'https://omdb.com/contact', external: true },
+      { name: 'Support', href: 'https://omdb.com/support', external: true },
+      { name: 'Careers', href: 'https://omdb.com/careers', external: true }
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#', internal: true },
       { name: 'Terms of Service', href: '#', internal: true },
-      { name: 'Cookie Policy', href: '#', internal: true },
-      { name: 'Disclaimer', href: '#', internal: true }
+      { name: 'Privacy Policy', href: '#', internal: true },
+      { name: 'Risk Disclosure', href: '#', internal: true },
+      { name: 'Compliance', href: '#', internal: true }
     ]
   };
 
-  const features = [
-    { icon: Shield, text: 'Secure & Decentralized' },
-    { icon: Zap, text: 'Lightning Fast' },
-    { icon: Users, text: 'Community Driven' },
-    { icon: Trophy, text: 'Competitive Gaming' }
+  const platformFeatures = [
+    { icon: Shield, text: 'Enterprise Security', color: 'text-blue-400' },
+    { icon: Zap, text: 'High Performance', color: 'text-yellow-400' },
+    { icon: Users, text: 'Global Community', color: 'text-purple-400' },
+    { icon: Trophy, text: 'Competitive Gaming', color: 'text-emerald-400' }
   ];
 
   const renderLink = (link: any, colorClass: string) => {
-    const baseClasses = `text-gray-400 hover:${colorClass} transition-colors duration-200 text-xs sm:text-sm hover:underline flex items-center space-x-1 sm:space-x-2 group`;
-    const dotClass = `w-1 h-1 ${colorClass.replace('text-', 'bg-')} rounded-full opacity-0 group-hover:opacity-100 transition-opacity`;
+    const baseClasses = `text-slate-400 hover:${colorClass} transition-colors duration-300 text-sm hover:underline flex items-center space-x-2 group`;
     
     if (link.internal) {
       return (
         <Link to={link.href} className={baseClasses}>
-          <span className={dotClass}></span>
           <span className="truncate">{link.name}</span>
+          <div className={`w-1 h-1 ${colorClass.replace('text-', 'bg-')} rounded-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
         </Link>
       );
     } else {
@@ -66,7 +57,6 @@ const Footer: React.FC = () => {
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <span className={dotClass}></span>
           <span className="truncate">{link.name}</span>
           <ExternalLink className="w-3 h-3 opacity-50 flex-shrink-0" />
         </a>
@@ -75,212 +65,199 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-black text-white relative overflow-hidden">
-      {/* Background Pattern */}
+    <footer className="bg-gradient-to-br from-slate-950 via-slate-900 to-black text-white relative overflow-hidden">
+      {/* Sophisticated Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M40 40L20 20h40v40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
       </div>
 
       <div className="relative">
         {/* Main Footer Content */}
-        <div className="w-full px-2 sm:px-4 lg:px-6 pt-6 sm:pt-8 lg:pt-12 pb-3 sm:pb-4 lg:pb-6">
+        <div className="w-full px-6 lg:px-8 pt-16 pb-8">
           {/* Top Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
             {/* Brand Section */}
-            <div className="lg:col-span-4">
-              <Link to="/" className="flex items-center space-x-1 sm:space-x-2 text-white group" onClick={() => {}}>
+            <div className="lg:col-span-5">
+              <Link to="/" className="flex items-center space-x-4 text-white group mb-6">
                 <div className="relative">
                   <img 
                     src="https://photos.pinksale.finance/file/pinksale-logo-upload/1756454447056-1fba9df7cd0639fc2d1b4bfcbc37a6bb.png" 
-                    alt="OMDB Arena Logo" 
-                    className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-md sm:rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    alt="OMDB Arena" 
+                    className="w-12 h-12 lg:w-16 lg:h-16 rounded-2xl shadow-xl group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-orange-600/20 rounded-md sm:rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div>
-                  <span className="font-bold text-sm sm:text-base lg:text-lg bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
-                    OMDB Arena
+                  <span className="font-black text-2xl lg:text-3xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    OMDB ARENA
                   </span>
-                  <div className="text-xs text-gray-400 -mt-1 hidden lg:block">Powered by Core Blockchain</div>
+                  <div className="text-sm text-slate-500 font-medium">Professional Gaming Platform</div>
                 </div>
               </Link>
               
-              <p className="text-gray-300 mb-2 sm:mb-4 leading-relaxed text-xs sm:text-sm mt-2">
-                The ultimate War of Elements gaming platform built on Core blockchain by OMDB. 
-                Create, play, and compete in a secure, transparent gaming ecosystem with real CORE token rewards.
+              <p className="text-slate-300 mb-6 leading-relaxed text-lg max-w-md">
+                The premier blockchain gaming platform delivering enterprise-grade security, 
+                competitive gameplay, and transparent rewards on Core Blockchain.
               </p>
 
-              {/* Features Grid */}
-              <div className="grid grid-cols-2 gap-1 sm:gap-2 mb-2 sm:mb-4">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-1 text-xs text-gray-300 hover:text-white transition-colors">
-                    <feature.icon className="h-3 w-3 text-orange-400 flex-shrink-0" />
-                    <span className="truncate">{feature.text}</span>
+              {/* Platform Features */}
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                {platformFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-2 text-sm hover:scale-105 transition-transform duration-300">
+                    <feature.icon className={`h-4 w-4 ${feature.color} flex-shrink-0`} />
+                    <span className="text-slate-300">{feature.text}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Social Media Links */}
+              {/* Company Links */}
               <div>
-                <h4 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-white">Join Our Community</h4>
-                <div className="flex space-x-2 sm:space-x-3">
+                <h4 className="text-lg font-bold mb-4 text-white">OMDB Company</h4>
+                <div className="flex space-x-4">
                   <a
                     href="https://omdb.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative overflow-hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-orange-500 hover:to-orange-600 rounded-md sm:rounded-lg transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-orange-500/25"
+                    className="group relative overflow-hidden flex items-center justify-center w-12 h-12 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-blue-600 hover:to-purple-600 rounded-xl transition-all duration-300 hover:scale-110 shadow-lg"
                     title="Visit OMDB Website"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
-                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-white transition-colors relative z-10" />
+                    <Globe className="w-6 h-6 text-slate-400 group-hover:text-white transition-colors relative z-10" />
                   </a>
                 </div>
-                <p className="text-gray-400 text-xs mt-1 sm:mt-2">
-                  Visit OMDB for updates, tournaments, and community events!
-                </p>
               </div>
             </div>
 
-            {/* Links Sections */}
-            <div className="lg:col-span-8">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-                {/* Platform Links */}
+            {/* Links Grid */}
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {/* Platform */}
                 <div>
-                  <h4 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-white flex items-center space-x-1">
-                    <Gamepad2 className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
+                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                    <Gamepad2 className="w-5 h-5 text-blue-400" />
                     <span>Platform</span>
                   </h4>
-                  <ul className="space-y-1 sm:space-y-2">
-                    {footerLinks.platform.map((link, index) => (
+                  <ul className="space-y-3">
+                    {footerSections.platform.map((link, index) => (
                       <li key={index}>
-                        {renderLink(link, 'text-orange-400')}
+                        {renderLink(link, 'text-blue-400')}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Resources Links */}
+                {/* Resources */}
                 <div>
-                  <h4 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-white flex items-center space-x-1">
-                    <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                    <Book className="w-5 h-5 text-emerald-400" />
                     <span>Resources</span>
                   </h4>
-                  <ul className="space-y-1 sm:space-y-2">
-                    {footerLinks.resources.map((link, index) => (
+                  <ul className="space-y-3">
+                    {footerSections.resources.map((link, index) => (
                       <li key={index}>
-                        {renderLink(link, 'text-green-400')}
+                        {renderLink(link, 'text-emerald-400')}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Legal Links */}
+                {/* Company */}
                 <div>
-                  <h4 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-white flex items-center space-x-1">
-                    <Users className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
-                    <span>Legal</span>
+                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                    <Globe className="w-5 h-5 text-purple-400" />
+                    <span>Company</span>
                   </h4>
-                  <ul className="space-y-1 sm:space-y-2">
-                    {footerLinks.legal.map((link, index) => (
+                  <ul className="space-y-3">
+                    {footerSections.company.map((link, index) => (
                       <li key={index}>
                         {renderLink(link, 'text-purple-400')}
                       </li>
                     ))}
                   </ul>
                 </div>
+
+                {/* Legal */}
+                <div>
+                  <h4 className="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                    <Shield className="w-5 h-5 text-orange-400" />
+                    <span>Legal</span>
+                  </h4>
+                  <ul className="space-y-3">
+                    {footerSections.legal.map((link, index) => (
+                      <li key={index}>
+                        {renderLink(link, 'text-orange-400')}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Documentation Button */}
-          <div className="mb-4 sm:mb-6 lg:mb-8 p-3 sm:p-4 lg:p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-lg sm:rounded-xl">
+          {/* Security Notice */}
+          <div className="mb-8 p-6 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/30 rounded-2xl">
             <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex items-center space-x-2 sm:space-x-3 mb-2 md:mb-0">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md sm:rounded-lg flex items-center justify-center">
-                  <Book className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <div className="flex items-center space-x-4 mb-4 md:mb-0">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-bold text-white">Game Documentation</h4>
-                  <p className="text-gray-300 text-xs">Learn everything about Guerra de Elementos Arena</p>
-                </div>
-              </div>
-              <Link
-                to="/game-docs"
-                className="group relative overflow-hidden flex items-center space-x-1 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-md sm:rounded-lg font-medium transition-all hover:scale-105 shadow-lg text-xs sm:text-sm"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
-                <div className="relative flex items-center space-x-1">
-                  <Book className="w-3 h-3 flex-shrink-0" />
-                  <span>View Documentation</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* Security & Audit Section */}
-          <div className="mb-4 sm:mb-6 lg:mb-8 p-3 sm:p-4 lg:p-6 bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-lg sm:rounded-xl">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex items-center space-x-2 sm:space-x-3 mb-2 md:mb-0">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-md sm:rounded-lg flex items-center justify-center">
-                  <FileCheck className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-sm sm:text-base font-bold text-white">Professional Security Audit</h4>
-                  <p className="text-gray-300 text-xs">Audited and verified for your safety</p>
+                  <h4 className="text-lg font-bold text-white">Enterprise Security</h4>
+                  <p className="text-slate-400">Audited smart contracts and secure infrastructure</p>
                 </div>
               </div>
               <Link
                 to="/audit"
-                className="group relative overflow-hidden flex items-center space-x-1 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-md sm:rounded-lg font-medium transition-all hover:scale-105 shadow-lg text-xs sm:text-sm"
+                className="group relative overflow-hidden flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
-                <div className="relative flex items-center space-x-1">
-                  <Shield className="w-3 h-3 flex-shrink-0" />
-                  <span>View Audit Report</span>
+                <div className="relative flex items-center space-x-2">
+                  <Shield className="w-4 h-4" />
+                  <span>View Security Report</span>
                 </div>
               </Link>
             </div>
           </div>
 
           {/* Divider */}
-          <div className="border-t border-gradient-to-r from-transparent via-slate-700 to-transparent mb-3 sm:mb-4"></div>
+          <div className="border-t border-slate-800/50 mb-6"></div>
 
           {/* Bottom Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 sm:space-x-6">
-              <p className="text-gray-400 text-xs">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
+              <p className="text-slate-400">
                 © {currentYear} OMDB Arena. All rights reserved.
               </p>
-              <div className="flex items-center space-x-1 text-gray-400 text-xs">
-                <span>Made with</span>
-                <Heart className="h-3 w-3 text-red-500 fill-current animate-pulse" />
-                <span>by OMDB for the Core gaming community</span>
+              <div className="flex items-center space-x-2 text-slate-400">
+                <span>Powered by</span>
+                <img 
+                  src="https://photos.pinksale.finance/file/pinksale-logo-upload/1754331659815-8a6a69a354540d190c6907808067d1f2.png" 
+                  alt="CORE" 
+                  className="w-4 h-4 rounded-full"
+                />
+                <span className="font-semibold">Core Blockchain</span>
               </div>
             </div>
 
             {/* Status Indicators */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="flex items-center space-x-1 bg-slate-800/50 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full border border-slate-700/50">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-gray-300 whitespace-nowrap">Core Network Active</span>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 bg-slate-900/50 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-800/50">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-slate-300">Platform Online</span>
               </div>
               
-              <div className="flex items-center space-x-1 bg-slate-800/50 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full border border-slate-700/50">
-                <img 
-                  src="https://photos.pinksale.finance/file/pinksale-logo-upload/1754331659815-8a6a69a354540d190c6907808067d1f2.png" 
-                  alt="CORE" 
-                  className="w-3 h-3 rounded-full flex-shrink-0"
-                />
-                <span className="text-xs text-gray-300 whitespace-nowrap">Chain ID: 1116</span>
+              <div className="flex items-center space-x-2 bg-slate-900/50 backdrop-blur-sm px-3 py-2 rounded-full border border-slate-800/50">
+                <Activity className="w-4 h-4 text-blue-400" />
+                <span className="text-sm text-slate-300">Chain ID: 1116</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Gradient Border */}
-        <div className="h-1 bg-gradient-to-r from-orange-500 via-red-500 to-purple-500"></div>
+        {/* Elegant Bottom Border */}
+        <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500"></div>
       </div>
     </footer>
   );
