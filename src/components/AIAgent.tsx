@@ -65,7 +65,7 @@ const AIAgent: React.FC = () => {
     const API_KEY = 'sk-91d6c1d647f8422f8c54f14dc22d499f';
     
     const gameKnowledge = `
-    You are an AI assistant for Guerra de Elementos Arena, a Guerra de Elementos gaming platform built on Core Blockchain. Here's comprehensive knowledge about the game:
+    You are an AI assistant for OMDB Arena, a Guerra de Elementos gaming platform built on Core Blockchain by OMDB. Here's comprehensive knowledge about the game:
 
     GAME MECHANICS:
     - Classic Guerra de Elementos rules: Fuego beats Plantas, Agua beats Fuego, Plantas beats Agua
@@ -104,12 +104,13 @@ const AIAgent: React.FC = () => {
     - All transactions verifiable on Core blockchain explorer
 
     FALCO-X COMPANY:
-    - Innovative blockchain gaming company
+    OMDB COMPANY:
+    - Innovative blockchain gaming and entertainment company
     - Focus on fair, transparent, and engaging gaming experiences
     - Community-driven development
     - Professional security audits and best practices
-    - Telegram: https://t.me/Falco_X_CORP
-    - Twitter: https://x.com/FalcoX_Corp/
+    - Website: https://omdb.com
+    - Support: https://omdb.com/support
 
     SECURITY:
     - Professional security audit scheduled for Q1 2025
@@ -276,7 +277,7 @@ const AIAgent: React.FC = () => {
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-slate-900 animate-pulse"></div>
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-white font-bold text-sm sm:text-base truncate">RPS Arena Assistant</h3>
+              <h3 className="text-white font-bold text-sm sm:text-base truncate">OMDB Arena Assistant</h3>
               <p className="text-green-400 text-xs flex items-center space-x-1">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span>Online & Ready</span>
@@ -408,7 +409,7 @@ const AIAgent: React.FC = () => {
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything about Guerra de Elementos Arena..."
+                    placeholder="Ask me anything about OMDB Arena..."
                     className="w-full bg-slate-700/50 border border-slate-600/50 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
                     disabled={isLoading}
                   />

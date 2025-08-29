@@ -284,9 +284,9 @@ app.get('/api/docs', (req, res) => {
       window: '1 minute'
     },
     contact: {
-      website: 'http://ppt.falcox.net',
-      telegram: 'https://t.me/Falco_X_CORP',
-      twitter: 'https://x.com/FalcoX_Corp/'
+      website: 'https://omdb.com',
+      email: 'support@omdb.com',
+      support: 'https://omdb.com/support'
     }
   };
   
@@ -635,8 +635,8 @@ app.get('/api/contract/info', async (req, res) => {
         immutable: true
       },
       contact: {
-        telegram: 'https://t.me/Falco_X_CORP',
-        twitter: 'https://x.com/FalcoX_Corp/'
+        website: 'https://omdb.com',
+        support: 'https://omdb.com/support'
       }
     };
 
@@ -679,9 +679,9 @@ app.use('*', (req, res) => {
 // Start server
 const startServer = () => {
   app.listen(CONFIG.PORT, () => {
-    console.log(`🚀 Guerra de Elementos Arena API Server running on port ${CONFIG.PORT}`);
-    console.log(`📊 API Documentation: http://ppt.falcox.net:${CONFIG.PORT}/api/docs`);
-    console.log(`🔗 Health Check: http://ppt.falcox.net:${CONFIG.PORT}/api/health`);
+    console.log(`🚀 OMDB Arena API Server running on port ${CONFIG.PORT}`);
+    console.log(`📊 API Documentation: http://localhost:${CONFIG.PORT}/api/docs`);
+    console.log(`🔗 Health Check: http://localhost:${CONFIG.PORT}/api/health`);
     console.log(`⛓️  Connected to Core Blockchain: ${CONFIG.CORE_RPC}`);
     console.log(`📝 Contract Address: ${CONFIG.CONTRACT_ADDRESS}`);
   });

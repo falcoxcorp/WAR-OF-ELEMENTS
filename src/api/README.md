@@ -1,6 +1,6 @@
-# Guerra de Elementos Arena API
+# OMDB Arena API
 
-Una API REST robusta y completa para el juego Guerra de Elementos Arena en Core Blockchain.
+Una API REST robusta y completa para el juego OMDB Arena en Core Blockchain.
 
 ## 🚀 Características
 
@@ -250,9 +250,9 @@ MIT License - ver archivo LICENSE para detalles.
 ## 🆘 Soporte
 
 - **Issues**: GitHub Issues
-- **Discord**: [Enlace al Discord]
-- **Email**: support@rpsarena.com
+- **Website**: https://omdb.com
+- **Email**: support@omdb.com
 
 ---
 
-**¡La API está lista para que otros proyectos interactúen con tu juego Guerra de Elementos de forma segura y eficiente!** 🎮⚡
+**¡La API está lista para que otros proyectos interactúen con OMDB Arena de forma segura y eficiente!** 🎮⚡

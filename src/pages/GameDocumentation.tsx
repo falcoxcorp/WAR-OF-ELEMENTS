@@ -159,7 +159,7 @@ const GameDocumentation: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  <strong className="text-white">Guerra de Elementos Arena</strong> is the world's first 
+                  <strong className="text-white">OMDB Arena</strong> is the world's first 
                   decentralized Guerra de Elementos gaming platform built on Core Blockchain. We combine 
                   the classic game everyone knows with cutting-edge blockchain technology to create a 
                   completely fair, transparent, and rewarding gaming experience.
@@ -609,7 +609,7 @@ if (data.success) {
       <div className="text-center bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-lg border border-blue-500/30 rounded-2xl p-8">
         <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Playing?</h2>
         <p className="text-gray-300 mb-6 text-lg">
-          Join thousands of players in the ultimate blockchain Guerra de Elementos experience!
+          ¡Únete a miles de jugadores en la experiencia definitiva de OMDB Arena blockchain!
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a

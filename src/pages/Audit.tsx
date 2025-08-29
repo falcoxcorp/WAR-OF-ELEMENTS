@@ -293,7 +293,7 @@ const Audit = () => {
               >
                 <div className="flex items-center space-x-3">
                   <img 
-                    src="https://photos.pinksale.finance/file/pinksale-logo-upload/1754331659815-8a6a69a354540d190c6907808067d1f2.png" 
+                    src="https://photos.pinksale.finance/file/pinksale-logo-upload/1756454447056-1fba9df7cd0639fc2d1b4bfcbc37a6bb.png" 
                     alt="Core" 
                     className="w-6 h-6 rounded-full"
                   />
