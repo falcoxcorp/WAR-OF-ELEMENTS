@@ -116,7 +116,13 @@ const Home = () => {
 
   const coreFeatures = [
     {
-      icon: <Shield className="w-8 h-8" />,
+      icon: (
+        <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L6 8V14C6 21 10.5 27.5 16 30C21.5 27.5 26 21 26 14V8L16 2Z" fill="currentColor" fillOpacity="0.9"/>
+          <path d="M16 4L8 9V14C8 19.8 11.6 25.2 16 27.5C20.4 25.2 24 19.8 24 14V9L16 4Z" fill="currentColor" fillOpacity="0.6"/>
+          <circle cx="16" cy="15" r="4" fill="currentColor" fillOpacity="0.8"/>
+        </svg>
+      ),
       title: "Enterprise Security",
       description: "Military-grade encryption and smart contract auditing",
       color: "from-blue-500 to-cyan-500",
@@ -124,7 +130,14 @@ const Home = () => {
       accent: "🛡️"
     },
     {
-      icon: <Zap className="w-8 h-8" />,
+      icon: (
+        <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <path d="M18 2L8 16H14L12 30L22 16H16L18 2Z" fill="currentColor" fillOpacity="0.9"/>
+          <path d="M16.5 4L9.5 15H13.5L12.5 26L20.5 15H16.5L16.5 4Z" fill="currentColor" fillOpacity="0.7"/>
+          <circle cx="16" cy="8" r="2" fill="currentColor"/>
+          <circle cx="16" cy="24" r="2" fill="currentColor"/>
+        </svg>
+      ),
       title: "Lightning Performance",
       description: "Sub-second transactions on Core Blockchain infrastructure",
       color: "from-yellow-500 to-orange-500",
@@ -132,7 +145,14 @@ const Home = () => {
       accent: "⚡"
     },
     {
-      icon: <Trophy className="w-8 h-8" />,
+      icon: (
+        <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L20 10H28L22 16L24 26H16L8 26L10 16L4 10H12L16 2Z" fill="currentColor" fillOpacity="0.9"/>
+          <path d="M16 4L19 11H25L20.5 15.5L22 24H16L10 24L11.5 15.5L7 11H13L16 4Z" fill="currentColor" fillOpacity="0.7"/>
+          <circle cx="16" cy="14" r="3" fill="currentColor"/>
+          <rect x="14" y="20" width="4" height="6" fill="currentColor" fillOpacity="0.8"/>
+        </svg>
+      ),
       title: "Competitive Rewards",
       description: "Real CORE token rewards with transparent distribution",
       color: "from-purple-500 to-pink-500",
@@ -140,7 +160,16 @@ const Home = () => {
       accent: "🏆"
     },
     {
-      icon: <Globe className="w-8 h-8" />,
+      icon: (
+        <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="2" strokeOpacity="0.8"/>
+          <path d="M2 16H30M16 2C20 6 22 11 22 16S20 26 16 30M16 2C12 6 10 11 10 16S12 26 16 30" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.9"/>
+          <circle cx="8" cy="10" r="1.5" fill="currentColor" fillOpacity="0.7"/>
+          <circle cx="24" cy="10" r="1.5" fill="currentColor" fillOpacity="0.7"/>
+          <circle cx="8" cy="22" r="1.5" fill="currentColor" fillOpacity="0.7"/>
+          <circle cx="24" cy="22" r="1.5" fill="currentColor" fillOpacity="0.7"/>
+        </svg>
+      ),
       title: "Global Network",
       description: "Decentralized gaming ecosystem with worldwide access",
       color: "from-green-500 to-emerald-500",
@@ -316,7 +345,16 @@ const Home = () => {
                 label: "ACTIVE GAMES", 
                 value: totalGames, 
                 suffix: "", 
-                icon: <Activity className="w-8 h-8" />, 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <rect x="4" y="8" width="24" height="16" rx="3" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="6" y="10" width="20" height="12" rx="2" fill="currentColor" fillOpacity="0.6"/>
+                    <circle cx="12" cy="16" r="2" fill="currentColor"/>
+                    <circle cx="20" cy="16" r="2" fill="currentColor"/>
+                    <rect x="14" y="18" width="4" height="2" rx="1" fill="currentColor" fillOpacity="0.9"/>
+                    <path d="M8 6L10 4H22L24 6" stroke="currentColor" strokeWidth="1.5"/>
+                  </svg>
+                ), 
                 color: "from-emerald-500 to-teal-500",
                 accent: "💎",
                 loading: loadingStats
@@ -325,7 +363,16 @@ const Home = () => {
                 label: "REGISTERED PLAYERS", 
                 value: totalPlayers, 
                 suffix: "", 
-                icon: <Users className="w-8 h-8" />, 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <circle cx="12" cy="10" r="4" fill="currentColor" fillOpacity="0.8"/>
+                    <circle cx="20" cy="12" r="3" fill="currentColor" fillOpacity="0.7"/>
+                    <path d="M4 26V24C4 20 8 18 12 18C16 18 20 20 20 24V26" fill="currentColor" fillOpacity="0.9"/>
+                    <path d="M20 26V25C20 22 22 21 24 21C26 21 28 22 28 25V26" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="10" y="8" width="4" height="2" rx="1" fill="currentColor" fillOpacity="0.6"/>
+                    <rect x="18" y="10" width="4" height="2" rx="1" fill="currentColor" fillOpacity="0.6"/>
+                  </svg>
+                ), 
                 color: "from-blue-500 to-indigo-500",
                 accent: "👥",
                 loading: loadingStats
@@ -334,7 +381,17 @@ const Home = () => {
                 label: "TOTAL VOLUME", 
                 value: animatedVolume, 
                 suffix: " CORE", 
-                icon: <Database className="w-8 h-8" />, 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <ellipse cx="16" cy="8" rx="12" ry="4" fill="currentColor" fillOpacity="0.8"/>
+                    <path d="M4 8V16C4 18 8 20 16 20S28 18 28 16V8" fill="none" stroke="currentColor" strokeWidth="2" strokeOpacity="0.9"/>
+                    <path d="M4 16V24C4 26 8 28 16 28S28 26 28 24V16" fill="none" stroke="currentColor" strokeWidth="2" strokeOpacity="0.9"/>
+                    <ellipse cx="16" cy="16" rx="8" ry="2" fill="currentColor" fillOpacity="0.6"/>
+                    <ellipse cx="16" cy="24" rx="8" ry="2" fill="currentColor" fillOpacity="0.7"/>
+                    <circle cx="20" cy="12" r="1" fill="currentColor"/>
+                    <circle cx="24" cy="20" r="1" fill="currentColor"/>
+                  </svg>
+                ), 
                 color: "from-purple-500 to-pink-500",
                 accent: "📊",
                 loading: loadingStats,
@@ -547,10 +604,69 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: "Binance Smart Chain", desc: "High-performance network", icon: <Layers className="w-8 h-8" />, color: "from-yellow-500 to-orange-500" },
-              { name: "Smart Contracts", desc: "Audited & verified", icon: <Code className="w-8 h-8" />, color: "from-purple-500 to-pink-500" },
-              { name: "Web3 Integration", desc: "Seamless wallet connection", icon: <Globe className="w-8 h-8" />, color: "from-emerald-500 to-teal-500" },
-              { name: "Real-time API", desc: "Live data synchronization", icon: <Database className="w-8 h-8" />, color: "from-orange-500 to-red-500" }
+              { 
+                name: "Binance Smart Chain", 
+                desc: "High-performance network", 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <rect x="4" y="4" width="24" height="24" rx="4" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="6" y="6" width="20" height="20" rx="3" fill="currentColor" fillOpacity="0.6"/>
+                    <rect x="8" y="8" width="16" height="16" rx="2" fill="currentColor" fillOpacity="0.4"/>
+                    <circle cx="16" cy="12" r="2" fill="currentColor"/>
+                    <circle cx="12" cy="16" r="1.5" fill="currentColor" fillOpacity="0.9"/>
+                    <circle cx="20" cy="16" r="1.5" fill="currentColor" fillOpacity="0.9"/>
+                    <rect x="14" y="18" width="4" height="2" rx="1" fill="currentColor"/>
+                  </svg>
+                ), 
+                color: "from-yellow-500 to-orange-500" 
+              },
+              { 
+                name: "Smart Contracts", 
+                desc: "Audited & verified", 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <rect x="6" y="4" width="20" height="24" rx="2" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="8" y="6" width="16" height="20" rx="1" fill="currentColor" fillOpacity="0.6"/>
+                    <path d="M10 10H22M10 14H20M10 18H18M10 22H16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.9"/>
+                    <circle cx="26" cy="8" r="3" fill="currentColor" fillOpacity="0.9"/>
+                    <path d="M24 8L25 9L28 6" stroke="white" strokeWidth="1" fill="none"/>
+                  </svg>
+                ), 
+                color: "from-purple-500 to-pink-500" 
+              },
+              { 
+                name: "Web3 Integration", 
+                desc: "Seamless wallet connection", 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <rect x="4" y="10" width="24" height="14" rx="3" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="6" y="12" width="20" height="10" rx="2" fill="currentColor" fillOpacity="0.6"/>
+                    <circle cx="12" cy="17" r="2" fill="currentColor"/>
+                    <circle cx="20" cy="17" r="2" fill="currentColor"/>
+                    <path d="M8 8L10 6H22L24 8" stroke="currentColor" strokeWidth="2" strokeOpacity="0.9"/>
+                    <circle cx="26" cy="6" r="2" fill="currentColor" fillOpacity="0.9"/>
+                    <path d="M24 4L26 2L28 4" stroke="currentColor" strokeWidth="1"/>
+                  </svg>
+                ), 
+                color: "from-emerald-500 to-teal-500" 
+              },
+              { 
+                name: "Real-time API", 
+                desc: "Live data synchronization", 
+                icon: (
+                  <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <rect x="2" y="6" width="28" height="20" rx="3" fill="currentColor" fillOpacity="0.8"/>
+                    <rect x="4" y="8" width="24" height="16" rx="2" fill="currentColor" fillOpacity="0.6"/>
+                    <rect x="6" y="10" width="8" height="2" rx="1" fill="currentColor"/>
+                    <rect x="6" y="14" width="12" height="2" rx="1" fill="currentColor"/>
+                    <rect x="6" y="18" width="6" height="2" rx="1" fill="currentColor"/>
+                    <circle cx="24" cy="14" r="3" fill="currentColor" fillOpacity="0.9"/>
+                    <circle cx="24" cy="14" r="1.5" fill="white" fillOpacity="0.8"/>
+                    <path d="M20 10L22 8L24 10" stroke="currentColor" strokeWidth="1"/>
+                  </svg>
+                ), 
+                color: "from-orange-500 to-red-500" 
+              }
             ].map((tech, index) => (
               <div key={index} className="group p-6 bg-slate-900/40 backdrop-blur-xl border border-slate-800/50 rounded-2xl hover:border-slate-700/50 transition-all duration-300 hover:scale-105">
                 <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${tech.color} mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>

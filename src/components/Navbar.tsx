@@ -16,10 +16,56 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navigationLinks = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/games', label: 'Games', icon: Gamepad2 },
-    { path: '/statistics', label: 'Analytics', icon: BarChart3 },
-    { path: '/stats', label: 'Profile', icon: User }
+    { 
+      path: '/', 
+      label: 'Home', 
+      icon: (props: any) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
+          <path d="M2 14V8L8 2L14 8V14H10V10H6V14H2Z" fill="currentColor" fillOpacity="0.9"/>
+          <rect x="6" y="10" width="4" height="4" fill="currentColor" fillOpacity="0.7"/>
+          <rect x="7" y="6" width="2" height="2" rx="1" fill="currentColor"/>
+        </svg>
+      )
+    },
+    { 
+      path: '/games', 
+      label: 'Games', 
+      icon: (props: any) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="5" width="12" height="8" rx="2" fill="currentColor" fillOpacity="0.8"/>
+          <circle cx="6" cy="9" r="1.5" fill="currentColor"/>
+          <circle cx="10" cy="9" r="1.5" fill="currentColor"/>
+          <rect x="7" y="7" width="2" height="1" rx="0.5" fill="currentColor" fillOpacity="0.9"/>
+          <path d="M4 3L6 2H10L12 3" stroke="currentColor" strokeWidth="1"/>
+        </svg>
+      )
+    },
+    { 
+      path: '/statistics', 
+      label: 'Analytics', 
+      icon: (props: any) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="10" width="3" height="4" fill="currentColor" fillOpacity="0.8"/>
+          <rect x="6" y="7" width="3" height="7" fill="currentColor" fillOpacity="0.9"/>
+          <rect x="10" y="4" width="3" height="10" fill="currentColor"/>
+          <circle cx="3.5" cy="8" r="0.5" fill="currentColor"/>
+          <circle cx="7.5" cy="5" r="0.5" fill="currentColor"/>
+          <circle cx="11.5" cy="2" r="0.5" fill="currentColor"/>
+        </svg>
+      )
+    },
+    { 
+      path: '/stats', 
+      label: 'Profile', 
+      icon: (props: any) => (
+        <svg className={props.className || "w-4 h-4"} viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="5" r="3" fill="currentColor" fillOpacity="0.8"/>
+          <path d="M2 14V13C2 10 5 9 8 9S14 10 14 13V14" fill="currentColor" fillOpacity="0.9"/>
+          <circle cx="8" cy="5" r="1.5" fill="white" fillOpacity="0.7"/>
+          <rect x="6" y="3" width="4" height="1" rx="0.5" fill="currentColor" fillOpacity="0.6"/>
+        </svg>
+      )
+    }
   ];
 
   if (isOwner) {
@@ -67,7 +113,7 @@ const Navbar = () => {
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
                   }`}
                 >
-                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  <Icon className="w-5 h-5 flex-shrink-0" />
                   <span className="whitespace-nowrap">{label}</span>
                   {path === '/admin' && (
                     <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse flex-shrink-0"></div>

@@ -51,11 +51,39 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
 
   const getStatusIcon = (status: number) => {
     switch (status) {
-      case 0: return <Play className="w-4 h-4" />;
-      case 1: return <Trophy className="w-4 h-4" />;
-      case 2: return <Timer className="w-4 h-4" />;
-      case 3: return <Eye className="w-4 h-4" />;
-      default: return <AlertCircle className="w-4 h-4" />;
+      case 0: return (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+          <path d="M3 2L13 8L3 14V2Z" fill="currentColor"/>
+          <circle cx="11" cy="8" r="1" fill="white" fillOpacity="0.8"/>
+        </svg>
+      );
+      case 1: return (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L10 5H14L11 8L12 13H8L4 13L5 8L2 5H6L8 1Z" fill="currentColor"/>
+          <circle cx="8" cy="7" r="1.5" fill="white" fillOpacity="0.8"/>
+        </svg>
+      );
+      case 2: return (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M8 3V8L12 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="8" cy="8" r="1" fill="currentColor"/>
+        </svg>
+      );
+      case 3: return (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" fill="currentColor" fillOpacity="0.8"/>
+          <circle cx="8" cy="8" r="4" fill="currentColor" fillOpacity="0.6"/>
+          <circle cx="8" cy="8" r="2" fill="white"/>
+          <path d="M6 6L10 10M10 6L6 10" stroke="currentColor" strokeWidth="1"/>
+        </svg>
+      );
+      default: return (
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" fill="currentColor" fillOpacity="0.8"/>
+          <path d="M8 4V8M8 10V12" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+      );
     }
   };
 
@@ -244,7 +272,11 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
               <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
                 <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
-                  <User className="w-4 h-4" />
+                  <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="5" r="3" fill="currentColor" fillOpacity="0.8"/>
+                    <path d="M2 14V13C2 10 5 9 8 9S14 10 14 13V14" fill="currentColor" fillOpacity="0.9"/>
+                    <circle cx="8" cy="5" r="1.5" fill="white" fillOpacity="0.7"/>
+                  </svg>
                   <span>Creator</span>
                 </span>
                 <span className="text-white font-semibold text-right break-all">
@@ -262,7 +294,12 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
               <div className="p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 min-h-[60px] flex items-center">
                 <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
                   <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
-                    <Target className="w-4 h-4" />
+                    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.8"/>
+                      <circle cx="8" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="1" strokeOpacity="0.9"/>
+                      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+                      <path d="M8 2V4M8 12V14M2 8H4M12 8H14" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                    </svg>
                     <span>Opponent</span>
                   </span>
                   <span className="text-white font-semibold text-right break-all">
@@ -280,7 +317,12 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
             <div className={`p-3 bg-gradient-to-r ${betTier.gradient}/10 border border-slate-700/30 rounded-xl min-h-[60px] flex items-center`}>
               <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between w-full gap-2">
                 <span className="text-slate-400 text-sm flex items-center space-x-2 flex-shrink-0">
-                  <Coins className="w-4 h-4" />
+                  <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="6" fill="currentColor" fillOpacity="0.8"/>
+                    <circle cx="8" cy="8" r="4" fill="currentColor" fillOpacity="0.6"/>
+                    <path d="M6 6L10 10M10 6L6 10" stroke="white" strokeWidth="1.5"/>
+                    <circle cx="8" cy="8" r="2" fill="none" stroke="white" strokeWidth="1"/>
+                  </svg>
                   <span>Bet Amount</span>
                 </span>
                 <div className="text-right">
@@ -297,7 +339,12 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
               <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl min-h-[60px]">
                 <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2">
                   <span className="text-yellow-400 text-sm flex items-center space-x-2 flex-shrink-0">
-                    <Clock className="w-4 h-4" />
+                    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                      <path d="M8 4V8L11 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <circle cx="8" cy="8" r="1" fill="currentColor"/>
+                      <path d="M6 2L10 2M6 14L10 14" stroke="currentColor" strokeWidth="1" strokeOpacity="0.6"/>
+                    </svg>
                     <span>Deadline</span>
                   </span>
                   <span className="text-white text-xs font-mono break-all">
@@ -312,14 +359,27 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
           {game.winner !== '0x0000000000000000000000000000000000000000' && (
             <div className="mb-4 sm:mb-6 p-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded-xl">
               <div className="flex flex-col xs:flex-row xs:items-center justify-center space-y-2 xs:space-y-0 xs:space-x-3">
-                <Trophy className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" />
+                <svg className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L15 8H21L16.5 12L18 20H12L6 20L7.5 12L3 8H9L12 2Z" fill="currentColor" fillOpacity="0.9"/>
+                  <path d="M12 4L14.5 9H19L15.5 12.5L16.5 18H12L7.5 18L8.5 12.5L5 9H9.5L12 4Z" fill="currentColor" fillOpacity="0.7"/>
+                  <circle cx="12" cy="11" r="2" fill="white" fillOpacity="0.8"/>
+                  <rect x="10" y="16" width="4" height="4" rx="1" fill="currentColor" fillOpacity="0.8"/>
+                </svg>
                 <div className="text-center xs:text-left">
                   <p className="text-yellow-400 font-semibold text-sm">Game Winner</p>
                   <p className="text-lg font-bold text-white">
                     {game.winner === account ? '🎉 You Won!' : `${formatAddress(game.winner)} Won!`}
                   </p>
                 </div>
-                <Award className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" style={{ animationDelay: '0.5s' }} />
+                <svg className="w-6 h-6 text-yellow-400 animate-bounce mx-auto xs:mx-0" viewBox="0 0 24 24" fill="none" style={{ animationDelay: '0.5s' }}>
+                  <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity="0.8"/>
+                  <circle cx="12" cy="12" r="7" fill="currentColor" fillOpacity="0.6"/>
+                  <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="12" cy="6" r="1" fill="currentColor"/>
+                  <circle cx="18" cy="12" r="1" fill="currentColor"/>
+                  <circle cx="12" cy="18" r="1" fill="currentColor"/>
+                  <circle cx="6" cy="12" r="1" fill="currentColor"/>
+                </svg>
               </div>
             </div>
           )}
