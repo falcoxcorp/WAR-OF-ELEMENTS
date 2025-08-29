@@ -25,7 +25,7 @@ interface Web3ContextType {
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
-const CONTRACT_ADDRESS = '0x3007582C0E80Fc9e381d7A1Eb198c72B0d1C3697';
+const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe';
 const CORE_CHAIN_ID = 1116;
 const CORE_NETWORK_CONFIG = {
   chainId: '0x45C', // 1116 in hex
