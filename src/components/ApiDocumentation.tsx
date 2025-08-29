@@ -267,9 +267,9 @@ const fetchPlayerData = async (address) => {
           </div>
         </div>
         <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4">
-          Guerra de Elementos Arena API
+          OMDB Arena API
         </h1>
-        <p className="text-xl text-gray-300 mb-6">API REST robusta para integrar con Guerra de Elementos Arena</p>
+        <p className="text-xl text-gray-300 mb-6">API REST robusta para integrar con OMDB Arena</p>
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-400">
           <div className="flex items-center space-x-2">
             <Shield className="w-4 h-4 text-green-400" />
