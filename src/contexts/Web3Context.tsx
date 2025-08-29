@@ -28,6 +28,8 @@ const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 const CONTRACT_ADDRESS = '0x8d1b2dCF2059d324804e5E34fE54EDAba62dadCe'; // BSC deployed contract address
 const BSC_CHAIN_ID = 56; // BSC Mainnet
 const BSC_TESTNET_CHAIN_ID = 97; // BSC Testnet
+
+// Updated BSC Network Configuration
 const BSC_NETWORK_CONFIG = {
   chainId: '0x38', // 56 in hex (BSC Mainnet)
   chainName: 'Binance Smart Chain Mainnet',
@@ -995,7 +997,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const checkMetaMaskAvailability = async (): Promise<boolean> => {
     if (!window.ethereum) {
       setIsMetaMaskInstalled(false);
-      toast.error('MetaMask is not installed. Please install MetaMask to continue.');
+      toast.error('MetaMask no está instalado. Por favor instala MetaMask para continuar.');
       return false;
     }
 
@@ -1005,7 +1007,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const provider = window.ethereum;
       if (!provider.isMetaMask) {
-        toast.error('Please use MetaMask wallet.');
+        toast.error('Por favor usa la billetera MetaMask.');
         return false;
       }
 
@@ -1120,7 +1122,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Enhanced network switching to BSC
   const switchToBSC = async () => {
     if (!window.ethereum) {
-      toast.error('MetaMask is not installed!');
+      toast.error('¡MetaMask no está instalado!');
       return;
     }
 
@@ -1136,7 +1138,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         });
       }, 2, 1000, 'network switch');
       
-      toast.success('Switched to Binance Smart Chain successfully!');
+      toast.success('¡Cambiado a Binance Smart Chain exitosamente!');
     } catch (switchError: any) {
       // If the network doesn't exist, add it
       if (switchError.code === 4902) {
@@ -1148,22 +1150,22 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
             });
           }, 2, 1000, 'network addition');
           
-          toast.success('Binance Smart Chain network added and switched successfully!');
+          toast.success('¡Red Binance Smart Chain agregada y cambiada exitosamente!');
         } catch (addError: any) {
           console.error('Error adding BSC network:', addError);
           if (addError.code === 4001) {
-            toast.error('Network addition rejected by user.');
+            toast.error('Adición de red rechazada por el usuario.');
           } else {
-            toast.error('Failed to add Binance Smart Chain network. Please add it manually.');
+            toast.error('Error al agregar la red BSC. Por favor agrégala manualmente.');
           }
           setError('Failed to add BSC network');
         }
       } else if (switchError.code === 4001) {
-        toast.error('Network switch rejected by user');
+        toast.error('Cambio de red rechazado por el usuario');
         setError('Network switch rejected');
       } else {
         console.error('Error switching to BSC network:', switchError);
-        toast.error('Failed to switch to Binance Smart Chain network');
+        toast.error('Error al cambiar a la red Binance Smart Chain');
         setError('Network switch failed');
       }
     } finally {
@@ -1229,7 +1231,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Update balance in background
         updateBalance(web3Instance, accounts[0]).catch(console.error);
         
-        toast.success('Connected to Binance Smart Chain successfully!');
+        toast.success('¡Conectado a Binance Smart Chain exitosamente!');
       } else {
         setContract(null);
         setIsConnected(false);
@@ -1237,7 +1239,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setBalance('0');
         setIsOwner(false);
         setError('Wrong network');
-        toast.error('Please switch to Binance Smart Chain (Chain ID: 56)');
+        toast.error('Por favor cambia a Binance Smart Chain (Chain ID: 56)');
       }
     } catch (error: any) {
       console.error('Error setting up Web3 connection:', error);
@@ -1289,6 +1291,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return;
       }
 
+      console.log('🔗 Attempting to connect to BSC network...');
+      console.log('📍 Contract Address:', CONTRACT_ADDRESS);
+      console.log('🌐 Expected Chain ID:', BSC_CHAIN_ID);
+
       // Create Web3 instance
       const web3Instance = new Web3(window.ethereum);
       
@@ -1303,6 +1309,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         throw new Error('No accounts found. Please unlock MetaMask and try again.');
       }
 
+      console.log('✅ Accounts found:', accounts.length);
       await setupWeb3Connection(web3Instance, accounts);
       
     } catch (error: any) {
@@ -1507,7 +1514,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
             
             await updateBalance(web3, account);
-            toast.success('Switched to Binance Smart Chain successfully!');
+            toast.success('¡Cambiado a Binance Smart Chain exitosamente!');
           } else {
             setContract(null);
             setIsConnected(false);
@@ -1516,7 +1523,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setIsOwner(false);
             setError('Wrong network');
             if (!isBSC) {
-              toast.error('Please switch to Binance Smart Chain (Chain ID: 56)');
+              toast.error('Por favor cambia a Binance Smart Chain (Chain ID: 56)');
             }
           }
         } catch (error: any) {
