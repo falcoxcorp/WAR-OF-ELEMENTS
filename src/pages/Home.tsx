@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedAppIcon from '../components/AnimatedAppIcon';
+import { useTranslation } from '../hooks/useTranslation';
 import { useWeb3 } from '../contexts/Web3Context';
 import { useGame } from '../contexts/GameContext';
 import { Shield, Zap, Users, Trophy, Target, Crown, Star, ChevronRight, Play, TrendingUp, Award, Globe, Lock, Eye, ArrowRight, Gamepad2, BarChart3, Swords, Gem, Hexagon, Wind, Mountain, Sun, Moon, Activity, Layers, Code, Database } from 'lucide-react';
 
 const Home = () => {
+  const { t, formatNumber, isRTL } = useTranslation();
   const { isConnected, account, web3, connectWallet, contract, isCorrectNetwork } = useWeb3();
   const { games, playerStats } = useGame();
   const [isVisible, setIsVisible] = useState(false);
