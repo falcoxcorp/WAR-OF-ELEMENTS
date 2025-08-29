@@ -101,10 +101,8 @@ const PlayerStats = () => {
                   {performance.icon}
                   <span>{performance.rating} Player</span>
                 </span>
-                {winStreak >= 3 && (
-                  <>
-                        ? (parseFloat(web3?.utils.fromWei(player.totalWagered, 'ether') || '0') / player.gamesPlayed).toFixed(4) + ' BNB'
-                        : '0.0000 BNB'
+                    <span className="text-orange-400 font-bold flex items-center space-x-2">
+                      <Zap className="w-3 h-3" />
                       <span>{winStreak} Win Streak</span>
                     </span>
                   </>
