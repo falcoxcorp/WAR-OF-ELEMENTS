@@ -1211,7 +1211,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
         
         // Check if the connected account is the contract owner
         try {
-          const ownerAddress = await contractInstance.methods.owner().call();
+          const ownerAddress = await retryRequest(async () => {
+            return contractInstance.methods.owner().call();
+          }, 3, 1500, 'contract owner check');
+          
           const isContractOwner = accounts[0].toLowerCase() === ownerAddress.toLowerCase();
           setIsOwner(isContractOwner);
           
