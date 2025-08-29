@@ -556,4 +556,40 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     💀 DEFEAT 💀
                   </h2>
                   <p className="text-xl text-red-300 mb-6">
-                    
+                    Better luck next time! The arena awaits your return.
+                  </p>
+                  <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-6 mb-6">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center space-x-2 mb-4">
+                        <Activity className="w-6 h-6 text-red-400" />
+                        <span className="text-red-300 font-semibold">Experience Gained:</span>
+                      </div>
+                      <p className="text-white font-bold text-xl">
+                        +50 XP
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setShowResultModal(false)}
+                  className="flex-1 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all"
+                >
+                  Close
+                </button>
+                <Link
+                  to="/games"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all text-center"
+                >
+                  Play Again
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
