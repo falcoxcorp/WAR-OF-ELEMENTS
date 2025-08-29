@@ -1330,7 +1330,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (currentNetworkId !== BSC_CHAIN_ID && currentNetworkId !== BSC_TESTNET_CHAIN_ID) {
         console.log('⚠️ Red incorrecta detectada, solicitando cambio a BSC...');
-        toast.info('Detectada red incorrecta. Cambiando a BSC automáticamente...');
+        toast('Detectada red incorrecta. Cambiando a BSC automáticamente...', {
+          icon: '⚠️',
+          duration: 3000
+        });
         await switchToBSC();
         return; // Exit here, the network change will trigger reconnection
       }
