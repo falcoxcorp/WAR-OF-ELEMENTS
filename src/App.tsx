@@ -31,11 +31,6 @@ function App() {
             <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex flex-col overflow-x-hidden w-full">
               <Navbar />
               
-              {/* Language Selector - Fixed Position */}
-              <div className="fixed top-20 right-4 z-40">
-                <LanguageSelector variant="navbar" size="sm" />
-              </div>
-              
               <main className="w-full px-2 sm:px-3 lg:px-4 py-3 sm:py-4 lg:py-6 flex-1 overflow-x-hidden">
                 <Routes>
                   <Route path="/" element={<Home />} />

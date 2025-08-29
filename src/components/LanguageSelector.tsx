@@ -54,7 +54,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const variantStyles = {
     navbar: 'bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700/50 hover:border-slate-600/50',
     footer: 'bg-slate-900/50 hover:bg-slate-800/50 border border-slate-800/50 hover:border-slate-700/50',
-    modal: 'bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600/50 hover:border-slate-500/50'
+    modal: 'bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600/50 hover:border-slate-500/50 w-full'
   };
 
   // Filter languages based on search
@@ -168,7 +168,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       {/* Dropdown Menu */}
       {isOpen && (
         <div className={`
-          absolute ${variant === 'navbar' ? 'top-full right-0 mt-2' : 'bottom-full left-0 mb-2'}
+          absolute ${variant === 'navbar' ? 'top-full right-0 mt-2' : variant === 'modal' ? 'top-full left-0 mt-2' : 'bottom-full left-0 mb-2'}
           ${config.dropdown} max-h-80 bg-slate-900/95 backdrop-blur-xl 
           border border-slate-700/50 rounded-2xl shadow-2xl z-50 overflow-hidden
           animate-fadeIn

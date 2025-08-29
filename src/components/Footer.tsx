@@ -130,10 +130,15 @@ const Footer: React.FC = () => {
                     <Globe className="w-6 h-6 text-slate-400 group-hover:text-white transition-colors relative z-10" />
                   </a>
                   
-                  {/* Language Selector in Footer */}
-                  <div className="ml-4">
-                    <LanguageSelector variant="footer" size="sm" />
-                  </div>
+                </div>
+                
+                {/* Language Selector in Footer */}
+                <div className="mt-4">
+                  <h4 className="text-white font-medium mb-3 flex items-center space-x-2">
+                    <Globe className="w-4 h-4 text-blue-400" />
+                    <span>Language / Idioma</span>
+                  </h4>
+                  <LanguageSelector variant="footer" size="md" showNativeName={true} />
                 </div>
               </div>
             </div>

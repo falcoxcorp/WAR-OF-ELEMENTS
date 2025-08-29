@@ -135,6 +135,11 @@ const Navbar = () => {
                 <FileText className="w-5 h-5 flex-shrink-0" />
                 <span className="whitespace-nowrap">Tech Docs</span>
               </Link>
+              
+              {/* Desktop Language Selector */}
+              <div className="ml-2">
+                <LanguageSelector variant="navbar" size="sm" />
+              </div>
             </div>
 
             {/* Desktop Wallet Section */}
@@ -213,6 +218,11 @@ const Navbar = () => {
 
             {/* Mobile Section */}
             <div className="flex lg:hidden items-center space-x-2 flex-shrink-0">
+              {/* Mobile Language Selector */}
+              <div className="flex items-center">
+                <LanguageSelector variant="navbar" size="sm" />
+              </div>
+              
               {/* Mobile Network Warning */}
               {isConnected && !isCorrectNetwork && (
                 <button
@@ -321,6 +331,15 @@ const Navbar = () => {
                     )}
                   </Link>
                 ))}
+                
+                {/* Mobile Language Selector in Menu */}
+                <div className="px-4 py-3">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <Globe className="w-5 h-5 text-blue-400" />
+                    <span className="text-white font-semibold">Language / Idioma</span>
+                  </div>
+                  <LanguageSelector variant="modal" size="md" showNativeName={true} />
+                </div>
               </div>
 
               {/* Mobile Wallet Actions */}
