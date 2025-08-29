@@ -1326,16 +1326,18 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Check current network before attempting connection
       const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
       const currentNetworkId = parseInt(currentChainId, 16);
-      console.log('🔍 Red actual detectada:', currentNetworkId);
+      console.log('🔍 Red actual detectada:', currentNetworkId, '(esperado:', BSC_CHAIN_ID, ')');
       
       if (currentNetworkId !== BSC_CHAIN_ID && currentNetworkId !== BSC_TESTNET_CHAIN_ID) {
-        console.log('⚠️ Red incorrecta detectada, solicitando cambio a BSC...');
+        console.log('⚠️ Red incorrecta detectada. Actual:', currentNetworkId, 'Esperado:', BSC_CHAIN_ID);
         toast('Detectada red incorrecta. Cambiando a BSC automáticamente...', {
           icon: '⚠️',
           duration: 3000
         });
         await switchToBSC();
         return; // Exit here, the network change will trigger reconnection
+      } else {
+        console.log('✅ Red BSC detectada correctamente');
       }
 
       // Create Web3 instance
