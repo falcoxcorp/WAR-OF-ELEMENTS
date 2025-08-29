@@ -121,18 +121,18 @@ const CreateGame = () => {
                   value={betAmount}
                   onChange={(e) => setBetAmount(e.target.value)}
                   className="w-full bg-slate-700 border border-slate-600 rounded-sm px-2 py-1 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xs font-bold"
-                  min="0.01"
-                  step="0.01"
+                  min="0.001"
+                  step="0.001"
                   placeholder="0.00"
                   required
                 />
-                <p className="text-gray-400 text-xxs mt-0.5">Min: 0.01 BNB</p>
+                <p className="text-gray-400 text-xxs mt-0.5">Min: 0.001 BNB</p>
               </div>
               
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                disabled={!betAmount || parseFloat(betAmount) < 0.01}
+                disabled={!betAmount || parseFloat(betAmount) < 0.001}
                 className="w-full px-2 py-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-sm font-medium transition-all disabled:cursor-not-allowed text-xs"
               >
                 Next: Choose Move

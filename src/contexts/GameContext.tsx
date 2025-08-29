@@ -392,14 +392,14 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const betAmountWei = BigInt(weiAmount);
       
       // Agregar un margen para gas (0.001 CORE = 1000000000000000 wei)
-      const gasMarginWei = BigInt(1000000000000000);
+      const gasMarginWei = BigInt(2000000000000000); // 0.002 BNB margin for gas
       const requiredBalanceWei = betAmountWei + gasMarginWei;
       
       if (userBalanceWei < requiredBalanceWei) {
         const userBalanceEther = web3.utils.fromWei(userBalance, 'ether');
         const requiredBalanceEther = web3.utils.fromWei(requiredBalanceWei.toString(), 'ether');
         
-        throw new Error(`Insufficient balance. You have ${parseFloat(userBalanceEther).toFixed(4)} BNB but need at least ${parseFloat(requiredBalanceEther).toFixed(4)} BNB (including gas fees)`);
+        throw new Error(`Insufficient balance. You have ${parseFloat(userBalanceEther).toFixed(6)} BNB but need at least ${parseFloat(requiredBalanceEther).toFixed(6)} BNB (including gas fees)`);
       }
       
       // Estimate gas first

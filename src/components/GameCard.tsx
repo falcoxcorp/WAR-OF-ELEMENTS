@@ -100,7 +100,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
     
     const betAmountEther = parseFloat(web3.utils.fromWei(game.betAmount, 'ether'));
     const userBalance = parseFloat(balance);
-    const gasMargin = 0.001;
+    const gasMargin = 0.002; // Increased margin for small bets
     const requiredBalance = betAmountEther + gasMargin;
     
     return userBalance >= requiredBalance;
