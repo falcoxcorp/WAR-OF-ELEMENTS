@@ -90,6 +90,9 @@ const PlayerStats = () => {
               score={playerStats.monthlyScore} 
               size="sm" 
               showProgress={false}
+            />
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
                 {winStreak >= 3 && (
                   <span className="text-orange-400 font-bold flex items-center space-x-2">
                     <Zap className="w-3 h-3" />
