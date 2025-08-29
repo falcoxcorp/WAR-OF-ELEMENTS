@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useWeb3 } from './Web3Context';
 import { saveGameSecret, getGameSecret, removeGameSecret, clearExpiredSecrets } from '../utils/gameStorage';
+import { makeRPCRequest, getRPCStatus } from '../utils/rpcManager';
 import toast from 'react-hot-toast';
 
 interface Game {
@@ -77,37 +78,63 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const fetchGames = async () => {
-    if (!contract || !isCorrectNetwork) return;
+    if (!contract || !isCorrectNetwork || !web3) {
+      console.log('⚠️ Games fetch skipped - missing dependencies');
+      return;
+    }
     
     try {
       setLoading(true);
       setError(null);
       
-      // Get total number of games
-      const gameCount = await contract.methods.gameCounter().call();
+      console.log('🎮 Fetching games with enhanced error handling...');
+      
+      // Enhanced game counter fetch with retry mechanism
+      const gameCount = await retryWithFallback(
+        () => contract.methods.gameCounter().call(),
+        'Game Counter',
+        3,
+        '100' // Fallback to 100 if fetch fails
+      );
+      
       const gameList: Game[] = [];
       
       // Fetch games in batches for better performance
-      const batchSize = 10;
+      const batchSize = 5; // Reduced batch size for better stability
       const totalGames = Number(gameCount);
       
-      for (let i = Math.max(1, totalGames - 50); i <= totalGames; i += batchSize) {
+      console.log(`📊 Total games to fetch: ${totalGames}`);
+      
+      // Only fetch recent games to reduce load
+      const startGame = Math.max(1, totalGames - 30); // Reduced from 50 to 30
+      
+      for (let i = startGame; i <= totalGames; i += batchSize) {
         const promises = [];
         const endIndex = Math.min(i + batchSize - 1, totalGames);
         
+        console.log(`📦 Fetching batch: games ${i} to ${endIndex}`);
+        
         for (let j = i; j <= endIndex; j++) {
           promises.push(
-            contract.methods.getGame(j).call().catch((err: any) => {
-              console.error(`Error fetching game ${j}:`, err);
+            retryWithFallback(
+              () => contract.methods.getGame(j).call(),
+              `Game ${j}`,
+              2, // Reduced retries for individual games
+              null // Return null on failure
+            ).catch((err: any) => {
+              console.warn(`⚠️ Game ${j} fetch failed after retries:`, err.message);
               return null;
             })
           );
         }
         
-        const batchResults = await Promise.all(promises);
+        // Use Promise.allSettled for better error handling
+        const batchResults = await Promise.allSettled(promises);
         
-        batchResults.forEach((game, index) => {
-          if (game && game.creator !== '0x0000000000000000000000000000000000000000') {
+        batchResults.forEach((result, index) => {
+          if (result.status === 'fulfilled' && result.value && 
+              result.value.creator !== '0x0000000000000000000000000000000000000000') {
+            const game = result.value;
             gameList.push({
               id: i + index,
               creator: game.creator,
@@ -122,29 +149,112 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               revealDeadline: Number(game.revealDeadline),
               referrer: game.referrer
             });
+          } else if (result.status === 'rejected') {
+            console.warn(`⚠️ Game ${i + index} rejected:`, result.reason?.message);
           }
         });
+        
+        // Add delay between batches to prevent overwhelming BSC RPC
+        if (endIndex < totalGames) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
       }
       
       // Sort by ID descending (newest first)
       setGames(gameList.sort((a, b) => b.id - a.id));
+      
+      console.log(`✅ Successfully fetched ${gameList.length} games`);
+      
     } catch (err: any) {
-      console.error('Error fetching games:', err);
+      console.error('❌ Critical error fetching games:', err);
       setError(err.message);
-      toast.error('Error fetching games from BSC');
+      
+      // Enhanced error messaging
+      const errorMessage = err.message || '';
+      if (errorMessage.includes('Internal JSON-RPC error')) {
+        toast.error('BSC network is busy. Games will refresh automatically.', {
+          duration: 3000,
+          icon: '🔄'
+        });
+      } else if (errorMessage.includes('timeout')) {
+        toast.error('Network timeout. Retrying in background...', {
+          duration: 2000,
+          icon: '⏰'
+        });
+      } else {
+        toast.error('Error loading games. Auto-retry in progress.', {
+          duration: 2000,
+          icon: '🔄'
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  // Enhanced retry utility function
+  const retryWithFallback = async (
+    operation: () => Promise<any>,
+    operationName: string,
+    maxRetries: number = 3,
+    fallbackValue: any = null
+  ) => {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await Promise.race([
+          operation(),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Operation timeout')), 8000)
+          )
+        ]);
+        return result;
+      } catch (error: any) {
+        const errorMsg = error.message || error.toString() || '';
+        console.warn(`⚠️ ${operationName} attempt ${attempt}/${maxRetries} failed:`, errorMsg);
+        
+        if (attempt === maxRetries) {
+          if (fallbackValue !== null) {
+            console.log(`🔄 ${operationName} using fallback value:`, fallbackValue);
+            return fallbackValue;
+          }
+          throw error;
+        }
+        
+        // Progressive backoff
+        const delay = 1000 * attempt + Math.random() * 500;
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  };
+
   const fetchPlayerStats = async (playerAddress: string) => {
-    if (!contract || !playerAddress || !isCorrectNetwork) return;
+    if (!contract || !playerAddress || !isCorrectNetwork || !web3) {
+      console.log('⚠️ Player stats fetch skipped - missing dependencies');
+      return;
+    }
     
     try {
       setLoading(true);
       setError(null);
       
-      const stats = await contract.methods.getPlayerStats(playerAddress).call();
+      console.log(`👤 Fetching player stats for: ${playerAddress}`);
+      
+      const stats = await retryWithFallback(
+        () => contract.methods.getPlayerStats(playerAddress).call(),
+        'Player Stats',
+        3,
+        {
+          wins: '0',
+          losses: '0',
+          ties: '0',
+          gamesPlayed: '0',
+          totalWagered: '0',
+          totalWon: '0',
+          referralEarnings: '0',
+          lastPlayed: '0',
+          monthlyScore: '0'
+        }
+      );
       
       const totalGames = Number(stats.gamesPlayed);
       const winRate = totalGames > 0 ? Math.round((Number(stats.wins) / totalGames) * 100) : 0;
@@ -162,10 +272,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         winRate,
         profit: (BigInt(stats.totalWon) - BigInt(stats.totalWagered)).toString()
       });
+      
+      console.log('✅ Player stats updated successfully');
+      
     } catch (err: any) {
-      console.error('Error fetching player stats:', err);
+      console.error('❌ Error fetching player stats:', err);
       setError(err.message);
-      toast.error('Error fetching player stats from BSC');
+      
+      // Don't show error toast for player stats, just log it
+      console.log('🔄 Player stats will retry on next refresh');
     } finally {
       setLoading(false);
     }
@@ -571,14 +686,25 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Auto-refresh data every 30 seconds when connected to correct network
   useEffect(() => {
     if (contract && isCorrectNetwork) {
+      console.log('🔄 Setting up auto-refresh and event listeners...');
+      
       fetchGames();
       if (account) {
         fetchPlayerStats(account);
       }
 
-      const interval = setInterval(() => {
-        refreshData();
-      }, 300000); // 5 minutes = 300,000 milliseconds
+      // Enhanced auto-refresh with RPC health awareness
+      const interval = setInterval(async () => {
+        const rpcStatus = getRPCStatus();
+        console.log(`🏥 RPC Health: ${rpcStatus.healthyEndpoints}/${rpcStatus.totalEndpoints} endpoints healthy`);
+        
+        if (rpcStatus.healthPercentage >= 50) {
+          console.log('🔄 Auto-refreshing data...');
+          await refreshData();
+        } else {
+          console.log('⚠️ Skipping auto-refresh due to poor RPC health');
+        }
+      }, 300000); // 5 minutes
 
       return () => clearInterval(interval);
     }

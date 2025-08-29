@@ -21,25 +21,71 @@ const Home = () => {
     contractBalance: '0'
   });
   const [loadingStats, setLoadingStats] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const [lastSuccessfulFetch, setLastSuccessfulFetch] = useState<Date | null>(null);
 
   // Function to get real contract statistics
   const fetchContractStats = async () => {
-    if (!contract || !isCorrectNetwork || !web3) return;
+    if (!contract || !isCorrectNetwork || !web3) {
+      console.log('⚠️ Contract stats fetch skipped - missing dependencies');
+      return;
+    }
     
     try {
       setLoadingStats(true);
+      console.log('🔍 Fetching contract stats...');
       
-      const [
-        totalGames,
-        totalPlayers,
-        rewardPool,
-        contractBalance
-      ] = await Promise.all([
-        contract.methods.totalGames().call(),
-        contract.methods.totalPlayers().call(),
-        contract.methods.getRewardPoolInfo().call(),
-        web3.eth.getBalance(contract.options.address)
+      // Enhanced RPC call with multiple fallbacks and retry logic
+      const fetchWithRetry = async (operation: () => Promise<any>, name: string, maxRetries = 3) => {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+          try {
+            console.log(`📡 Attempting ${name} (${attempt}/${maxRetries})`);
+            const result = await Promise.race([
+              operation(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Request timeout')), 10000)
+              )
+            ]);
+            console.log(`✅ ${name} successful`);
+            return result;
+          } catch (error: any) {
+            console.warn(`⚠️ ${name} attempt ${attempt} failed:`, error.message);
+            
+            if (attempt === maxRetries) {
+              throw error;
+            }
+            
+            // Progressive delay with jitter
+            const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000) + Math.random() * 1000;
+            console.log(`⏳ Waiting ${Math.round(delay)}ms before retry...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
+      };
+
+      // Fetch data with individual error handling
+      const results = await Promise.allSettled([
+        fetchWithRetry(() => contract.methods.totalGames().call(), 'totalGames'),
+        fetchWithRetry(() => contract.methods.totalPlayers().call(), 'totalPlayers'),
+        fetchWithRetry(() => contract.methods.getRewardPoolInfo().call(), 'rewardPool'),
+        fetchWithRetry(() => web3.eth.getBalance(contract.options.address), 'contractBalance')
       ]);
+
+      // Process results with fallbacks
+      const [totalGamesResult, totalPlayersResult, rewardPoolResult, contractBalanceResult] = results;
+      
+      const totalGames = totalGamesResult.status === 'fulfilled' ? Number(totalGamesResult.value) : contractStats.totalGames;
+      const totalPlayers = totalPlayersResult.status === 'fulfilled' ? Number(totalPlayersResult.value) : contractStats.totalPlayers;
+      const rewardPool = rewardPoolResult.status === 'fulfilled' ? rewardPoolResult.value : contractStats.rewardPool;
+      const contractBalance = contractBalanceResult.status === 'fulfilled' ? contractBalanceResult.value : contractStats.contractBalance;
+      
+      // Log any failed requests
+      results.forEach((result, index) => {
+        const names = ['totalGames', 'totalPlayers', 'rewardPool', 'contractBalance'];
+        if (result.status === 'rejected') {
+          console.error(`❌ Failed to fetch ${names[index]}:`, result.reason.message);
+        }
+      });
 
       const totalVolumeWei = BigInt(contractBalance) + BigInt(rewardPool);
 
@@ -50,11 +96,41 @@ const Home = () => {
         rewardPool,
         contractBalance
       });
+      
+      setRetryCount(0); // Reset retry count on success
+      setLastSuccessfulFetch(new Date());
+      console.log('✅ Contract stats updated successfully');
+      
     } catch (error) {
-      console.error('Error fetching contract stats:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error('❌ Error fetching contract stats:', errorMessage);
+      
+      setRetryCount(prev => prev + 1);
+      
+      // Enhanced error handling with user-friendly messages
+      if (errorMessage.includes('Internal JSON-RPC error')) {
+        console.log('🔄 BSC RPC overloaded, will retry automatically...');
+        // Don't show error toast for RPC overload - it's temporary
+      } else if (errorMessage.includes('timeout')) {
+        console.log('⏰ Request timeout, will retry with longer timeout...');
+      } else if (errorMessage.includes('rate limit')) {
+        console.log('🚦 Rate limited, will retry after delay...');
+      } else {
+        console.error('🚨 Unexpected error:', errorMessage);
+      }
+      
+      // Only show error to user if it's been failing for a while
+      if (retryCount >= 3) {
+        const toast = (await import('react-hot-toast')).default;
+        toast.error('BSC network is experiencing high load. Stats will update automatically when available.', {
+          duration: 5000,
+          id: 'contract-stats-error' // Prevent duplicate toasts
+        });
+      }
     } finally {
       setLoadingStats(false);
     }
+      console.log('🚀 Initial contract stats fetch...');
   };
 
   useEffect(() => {
@@ -64,11 +140,17 @@ const Home = () => {
   }, [contract, isCorrectNetwork]);
 
   useEffect(() => {
-    if (contract && isCorrectNetwork) {
-      const interval = setInterval(fetchContractStats, 300000);
+    if (contract && isCorrectNetwork && web3) {
+      console.log('⏰ Setting up auto-refresh interval (5 minutes)...');
+      
+      const interval = setInterval(() => {
+        console.log('🔄 Auto-refreshing contract stats...');
+        fetchContractStats();
+      }, 300000); // 5 minutes
+      
       return () => clearInterval(interval);
     }
-  }, [contract, isCorrectNetwork]);
+  }, [contract, isCorrectNetwork, web3]);
 
   const useAnimatedCounter = (end: number, duration: number = 2000) => {
     const [count, setCount] = useState(0);

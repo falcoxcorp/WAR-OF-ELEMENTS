@@ -34,8 +34,9 @@ const BSC_RPC_ENDPOINTS = [
   'https://bsc-dataseed1.binance.org',
   'https://bsc-dataseed2.binance.org',
   'https://bsc-dataseed3.binance.org',
-  'https://bsc-dataseed4.binance.org',
-  'https://rpc.ankr.com/bsc'
+  'https://rpc.ankr.com/bsc',
+  'https://bsc.nodereal.io',
+  'https://bsc-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3'
 ];
 
 // Updated BSC Network Configuration
@@ -1066,12 +1067,18 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         // Exponential backoff with jitter for subsequent attempts
         if (attempt > 1) {
-          const delay = baseDelay * Math.pow(1.5, attempt - 1) + Math.random() * 500;
+          const delay = baseDelay * Math.pow(2, attempt - 1) + Math.random() * 1000; // Increased backoff
           console.log(`Retrying ${context} (attempt ${attempt}/${maxRetries}) after ${Math.round(delay)}ms...`);
           await wait(delay);
         }
 
-        const result = await requestFn();
+        // Add timeout to prevent hanging requests
+        const result = await Promise.race([
+          requestFn(),
+          new Promise<never>((_, reject) => 
+            setTimeout(() => reject(new Error('Request timeout after 15s')), 15000)
+          )
+        ]);
         
         // Reset circuit breaker count on successful request
         if (circuitBreakerCount > 0) {
@@ -1095,6 +1102,13 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
           throw error;
         }
 
+        // Don't retry on timeout errors from our own timeout
+        if (error.message?.includes('Request timeout after')) {
+          console.warn(`${context} timed out after 15 seconds`);
+          if (attempt === maxRetries) throw error;
+          continue;
+        }
+
         // Handle circuit breaker errors with progressive backoff
         if (isCircuitBreakerError(error)) {
           circuitBreakerCount++;
@@ -1102,7 +1116,7 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
           
           if (attempt < maxRetries) {
             // Progressive delay based on circuit breaker count
-            const progressiveDelay = CIRCUIT_BREAKER_COOLDOWN * Math.min(circuitBreakerCount, 3);
+            const progressiveDelay = CIRCUIT_BREAKER_COOLDOWN * Math.min(circuitBreakerCount, 5); // Increased max multiplier
             const jitter = Math.random() * 5000;
             const totalDelay = progressiveDelay + jitter;
             
@@ -1117,7 +1131,10 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
                            error.message?.includes('too many requests') ||
                            error.message?.includes('network error') ||
                            error.message?.includes('timeout') ||
-                           error.message?.includes('Internal JSON-RPC error');
+                           error.message?.includes('Internal JSON-RPC error') ||
+                           error.message?.includes('connection') ||
+                           error.message?.includes('ECONNRESET') ||
+                           error.message?.includes('ETIMEDOUT');
 
         if (!shouldRetry || attempt === maxRetries) {
           throw lastError;
@@ -1206,9 +1223,17 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('📍 Account:', accounts[0]);
       console.log('🏗️ Contract Address:', CONTRACT_ADDRESS);
       
+      // Enhanced network detection with multiple RPC fallbacks
       const networkId = await retryRequest(async () => {
-        return web3Instance.eth.net.getId();
-      }, 5, 3000, 'network ID fetch'); // Increased from 2 to 5 retries with longer delay
+        // Try multiple methods to get network ID
+        try {
+          return await web3Instance.eth.net.getId();
+        } catch (error) {
+          console.warn('Primary network ID fetch failed, trying chainId...');
+          const chainId = await web3Instance.eth.getChainId();
+          return chainId;
+        }
+      }, 5, 2000, 'network ID fetch');
       
       console.log('🌐 Detected Network ID:', Number(networkId));
       console.log('✅ Expected BSC Chain ID:', BSC_CHAIN_ID);
@@ -1223,7 +1248,24 @@ export const Web3Provider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (isBSC) {
         console.log('🚀 Initializing BSC contract...');
-        const contractInstance = new web3Instance.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        
+        // Enhanced contract initialization with validation
+        let contractInstance;
+        try {
+          contractInstance = new web3Instance.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+          
+          // Validate contract by calling a simple view function
+          console.log('🔍 Validating contract connection...');
+          await retryRequest(async () => {
+            return contractInstance.methods.owner().call();
+          }, 3, 1500, 'contract validation');
+          
+          console.log('✅ Contract validation successful');
+        } catch (contractError) {
+          console.error('❌ Contract initialization failed:', contractError);
+          throw new Error('Failed to initialize contract - BSC RPC might be overloaded');
+        }
+        
         setContract(contractInstance);
         setIsConnected(true);
         setConnectionState('connected');
