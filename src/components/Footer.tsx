@@ -93,22 +93,22 @@ const Footer: React.FC = () => {
               <Link to="/" className="flex items-center space-x-1 sm:space-x-2 text-white group" onClick={() => {}}>
                 <div className="relative">
                   <img 
-                    src="https://photos.pinksale.finance/file/pinksale-logo-upload/1754331659815-8a6a69a354540d190c6907808067d1f2.png" 
-                    alt="RPS Arena Logo" 
+                    src="https://photos.pinksale.finance/file/pinksale-logo-upload/1756454447056-1fba9df7cd0639fc2d1b4bfcbc37a6bb.png" 
+                    alt="OMDB Arena Logo" 
                     className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-md sm:rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-orange-600/20 rounded-md sm:rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div>
                   <span className="font-bold text-sm sm:text-base lg:text-lg bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
-                    War of Elements
+                    OMDB Arena
                   </span>
                   <div className="text-xs text-gray-400 -mt-1 hidden lg:block">Powered by Core Blockchain</div>
                 </div>
               </Link>
               
               <p className="text-gray-300 mb-2 sm:mb-4 leading-relaxed text-xs sm:text-sm mt-2">
-                The ultimate War of Elements gaming platform built on Core blockchain. 
+                The ultimate War of Elements gaming platform built on Core blockchain by OMDB. 
                 Create, play, and compete in a secure, transparent gaming ecosystem with real CORE token rewards.
               </p>
 
@@ -126,22 +126,19 @@ const Footer: React.FC = () => {
               <div>
                 <h4 className="text-sm sm:text-base font-semibold mb-2 sm:mb-3 text-white">Join Our Community</h4>
                 <div className="flex space-x-2 sm:space-x-3">
-                  {footerLinks.community.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative overflow-hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-orange-500 hover:to-orange-600 rounded-md sm:rounded-lg transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-orange-500/25"
-                      title={`Follow us on ${social.name}`}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
-                      <social.icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-white transition-colors relative z-10" />
-                    </a>
-                  ))}
+                  <a
+                    href="https://omdb.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-orange-500 hover:to-orange-600 rounded-md sm:rounded-lg transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-orange-500/25"
+                    title="Visit OMDB Website"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 group-hover:animate-shimmer"></div>
+                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-white transition-colors relative z-10" />
+                  </a>
                 </div>
                 <p className="text-gray-400 text-xs mt-1 sm:mt-2">
-                  Follow us for updates, tournaments, and community events!
+                  Visit OMDB for updates, tournaments, and community events!
                 </p>
               </div>
             </div>
@@ -254,12 +251,12 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 sm:space-x-6">
               <p className="text-gray-400 text-xs">
-                © {currentYear} War of Elements Arena. All rights reserved.
+                © {currentYear} OMDB Arena. All rights reserved.
               </p>
               <div className="flex items-center space-x-1 text-gray-400 text-xs">
                 <span>Made with</span>
                 <Heart className="h-3 w-3 text-red-500 fill-current animate-pulse" />
-                <span>for the Core gaming community</span>
+                <span>by OMDB for the Core gaming community</span>
               </div>
             </div>
 
